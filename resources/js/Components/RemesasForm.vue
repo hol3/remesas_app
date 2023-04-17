@@ -27,7 +27,7 @@
                 </div>
                 <div class="mt-2">
                     <InputLabel for="cantidad" value="Cantidad:" />
-                    <TextInput id="cantidad" type="number" class="mt-1 block w-full" v-model="form.cantidad" />
+                    <TextInput id="cantidad" type="number" step="0.01" class="mt-1 block w-full" v-model="form.cantidad" />
                     <InputError class="mt-2" :message="form.errors.cantidad" />
                 </div>
                 <div class="mt-2">
@@ -41,7 +41,7 @@
                 </div>
                 <div class="mt-2 col-span-2">
                     <InputLabel for="comision" value="Comision:" />
-                    <TextInput id="comision" type="number" class="mt-1 block w-full" v-model="form.comision" required />
+                    <TextInput id="comision" type="number" class="mt-1 block w-full" step="0.01" v-model="form.comision" required />
                     <InputError class="mt-2" :message="form.errors.comision" />
                 </div>
                 <div class="mt-2 col-span-2">

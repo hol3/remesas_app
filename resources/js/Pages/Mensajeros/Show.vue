@@ -10,7 +10,7 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex justify-between p-4 mb-2 text-gray-600">
                     <p class="text-2xl font-semibold">Entregas pedientes: {{ pendientes }}</p>
-                    <p class="text-2xl font-semibold">Pendiente por cobrar: ${{ pendientes * mensajero.comision }}</p>
+                    <p class="text-2xl font-semibold">Pendiente por cobrar: ${{ cobroPendiente }}</p>
                     <p class="text-2xl font-semibold">Comisión de hoy: ${{ cobroHoy }}</p>
                 </div>
                 <RemesasComponent :remesas="remesas" :pagination="pagination" />
@@ -38,6 +38,7 @@ const props = defineProps({
     },
     pendientes: null,
     cobroHoy: null,
+    cobroPendiente: null,
 })
 
 console.log(props.remesas)

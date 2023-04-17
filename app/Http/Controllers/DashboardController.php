@@ -58,6 +58,7 @@ class DashboardController extends Controller
         $efectivoTotal = [];
         $totalEntregado = [];
         $totalEnCaja = [];
+        $efectivoPendiente = [];
         
         foreach(Moneda::all() as $item)
         {
@@ -72,13 +73,18 @@ class DashboardController extends Controller
                 'nombre' => $item->nombre,
                 'cantidad' => $this->calcularEfectivo($item),
             ]);
+            array_push($efectivoPendiente, [
+                'id' => $item->id,
+                'nombre' => $item->nombre,
+                'cantidad' => $this->efectivoPendiente($item),
+            ]);
         }
 
         // dump($totalEnCaja);
 
         // dump($remesasSixMonth);
 
-        // dd($remesas);
+        // dd($efectivoPendiente);
         
 
         //Leyendo entregas desde la ultima recogida de dinero
@@ -92,7 +98,8 @@ class DashboardController extends Controller
             'pendientes' => $totalPendientes,
             'totalencaja' => $totalEnCaja,
             'remesas' => $data,
-            'pagination' => $remesas
+            'pagination' => $remesas,
+            'dineroPendiente' => $efectivoPendiente,
         ]);
     }
 
@@ -106,6 +113,12 @@ class DashboardController extends Controller
         {
             $total = EfectivoEnCaja::where('moneda_id', $moneda->id)->sum('cantidad') - Remesa::where('moneda_id', $moneda->id)->sum('cantidad');
         }
+        return $total;
+    }
+
+    private function efectivoPendiente($moneda)
+    {
+        $total = Remesa::where('moneda_id', $moneda->id)->where('estado', 0)->sum('cantidad');
         return $total;
     }
 }

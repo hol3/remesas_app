@@ -79,18 +79,26 @@ class MensajeroController extends Controller
         $item = $mensajero->remesas;
         $pagination = $mensajero->remesas()->latest('id')->paginate(20);
         $pendientes = $mensajero->remesas()->where('estado', 0)->count();
+        $remesasPendientes = $mensajero->remesas()->where('estado', 0)->get();
         $entregadasHoy = $mensajero->remesas()->where('estado', 1)->whereDate('updated_at', Carbon::today())->count();
         $entregasHoy = $mensajero->remesas()->where('estado', 1)->whereDate('updated_at', Carbon::today())->get();
  
         $remesas = array();
 
         $cobro = 0;
+        $cobroPendiente = 0;
+
+        // dd($remesasPendientes);
 
         if($mensajero->comision > 0){
             $cobro = $entregadasHoy * $mensajero->comision;
+            $cobroPendiente = $pendientes * $mensajero->comision;            
         }else{
+            foreach($remesasPendientes as $remesa){
+                $cobroPendiente += $remesa->comision;
+            }
             foreach($entregasHoy as $entrega){
-                $cobro += $entrega->comision;
+                $cobro += $entrega->comision;                
             }
         }
 
@@ -118,6 +126,7 @@ class MensajeroController extends Controller
             'mensajero' => $mensajero,
             'remesas' => $remesas,
             'pendientes' => $pendientes,
+            'cobroPendiente' => $cobroPendiente,
             'pagination' => $pagination,
             'cobroHoy' => $cobro,
         ]);

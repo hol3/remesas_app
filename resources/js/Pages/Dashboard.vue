@@ -69,10 +69,10 @@
                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                     <tr>
                                         <th class="px-6 py-3 text-center">Factura</th>
-                                        <th class="px-6 py-3 text-center">Nombre</th>
+                                        <th class="px-6 py-3 text-center hidden md:table-cell">Nombre</th>
                                         <th class="px-6 py-3 text-center hidden lg:table-cell">Cantidad</th>
-                                        <th class="px-6 py-3 text-center hidden lg:table-cell">Moneda</th>
-                                        <th class="px-6 py-3 text-center hidden lg:table-cell">Fecha</th>
+                                        <th class="px-6 py-3 text-center hidden xl:table-cell">Moneda</th>
+                                        <th class="px-6 py-3 text-center hidden xl:table-cell">Fecha</th>
                                         <th class="px-6 py-3 text-center">Cerrar factura</th>
                                     </tr>
                                 </thead>
@@ -82,11 +82,11 @@
                                         <td class="px-6 py-1 font-medium text-gray-900 whitespace-nowrap">{{
                                             remesa.codigo
                                         }}</td>
-                                        <td class="px-6 py-1">{{ remesa.nombre_cliente }}</td>
+                                        <td class="px-6 py-1 hidden md:table-cell">{{ remesa.nombre_cliente }}</td>
                                         <td class="px-6 py-1 text-center hidden lg:table-cell">{{ remesa.cantidad }}
                                         </td>
-                                        <td class="px-6 py-1 text-center hidden lg:table-cell">{{ remesa.moneda }}</td>
-                                        <td class="px-6 py-1 text-center hidden lg:table-cell">{{
+                                        <td class="px-6 py-1 text-center hidden xl:table-cell">{{ remesa.moneda }}</td>
+                                        <td class="px-6 py-1 text-center hidden xl:table-cell">{{
                                             dayjs(remesa.created_at).format('DD/MM/YYYY')
                                         }}</td>
                                         <td class="px-6 py-1 text-center">
@@ -111,8 +111,14 @@
                                     <td class="py-4 text-right">{{ totalMoneda.cantidad }}</td>
                                 </tr>
                             </table>
-                            <div class="w-full p-4">
-                                <h2 class="font-semibold text-lg text-gray-800">Dinero pendiente a entregar</h2>
+                            <div class="w-full my-4">
+                                <h2 class="font-semibold text-lg text-gray-800">Dinero pendiente por entregar</h2>
+                                <table class="w-full">
+                                    <tr v-for="dinero in dineroPendiente" class="border-b">
+                                        <td class="py-4 font-semibold">{{ dinero.nombre }}</td>
+                                        <td class="py-4 text-right">{{ dinero.cantidad }}</td>
+                                    </tr>
+                                </table>
                             </div>                      
                         </div>
                     </div>
@@ -137,6 +143,10 @@ const props = defineProps({
         default: () => ({})
     },
     totalencaja: {
+        type: Object,
+        default: () => ({})
+    },
+    dineroPendiente: {
         type: Object,
         default: () => ({})
     },
