@@ -27,12 +27,12 @@
                 </div>
                 <div class="mt-2">
                     <InputLabel for="cantidad" value="Cantidad:" />
-                    <TextInput id="cantidad" type="number" step="0.01" class="mt-1 block w-full" v-model="form.cantidad" />
+                    <TextInput id="cantidad" type="number" step="0.01" required class="mt-1 block w-full" v-model="form.cantidad" />
                     <InputError class="mt-2" :message="form.errors.cantidad" />
                 </div>
                 <div class="mt-2">
                     <InputLabel for="monedas" value="Tipo de moneda" />
-                    <select v-model="form.moneda_id" id="monedas"
+                    <select v-model="form.moneda_id" id="monedas" required
                         class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
                         <option v-for="moneda in monedas" v-bind:value="moneda.id">{{
                             moneda.nombre
@@ -61,7 +61,7 @@
                 </div>
                 <div class="mt-2 col-span-2">
                     <InputLabel for="mensajero" value="Mensajero:" />
-                    <select v-model="form.mensajero_id" id="mensajero"
+                    <select v-model="form.mensajero_id" id="mensajero" required
                         class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
                         <option value="">Seleccione un mensajero</option>
                         <option v-for="mensajero in props.mensajeros" v-bind:value="mensajero.id">{{ mensajero.nombre }}

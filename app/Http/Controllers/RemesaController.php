@@ -102,7 +102,8 @@ class RemesaController extends Controller
             'municipio_id' => ['required'],
             'comision' => ['required'],
             'cantidad' => ['required'],
-            'moneda_id' => ['required']
+            'moneda_id' => ['required'],
+            'mensajero_id'=> ['required']
         ])->validate();
         
         $remesa = new Remesa();
