@@ -1,8 +1,8 @@
 <template>
-    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-        <div class="p-6 bg-white border-b border-gray-200">
-            <table class="w-full text-sm text-left text-gray-500 my-4">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+    <div class="bg-white dark:bg-slate-600 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="p-6">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-200 my-4">
+                <thead class="text-xs text-gray-700 dark:text-gray-200 uppercase bg-gray-50 dark:bg-slate-700">
                     <tr>
                         <th class="px-6 py-3 text-center">Factura</th>
                         <th class="px-6 py-3 text-center hidden sm:table-cell">Nombre</th>
@@ -14,13 +14,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="remesa in props.remesas" :key="remesa.id" class="border-b hover:bg-gray-100"
+                    <tr v-for="remesa in props.remesas" :key="remesa.id" class="border-b dark:border-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800"
                         @click="showRemesa(remesa)">
                         <td v-if="remesa.estado === 1"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border-l-4 border-green-300">
+                            class="px-6 py-4 font-medium text-gray-900 uppercase dark:text-gray-200 whitespace-nowrap border-l-4 border-green-300">
                             {{ remesa.codigo }}
                         </td>
-                        <td v-else class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                        <td v-else class="px-6 py-4 font-medium uppercase text-gray-900 dark:text-gray-200 whitespace-nowrap">
                             {{ remesa.codigo }}
                         </td>
                         <td class="px-6 py-4 hidden sm:table-cell">{{ remesa.nombre_cliente }}</td>

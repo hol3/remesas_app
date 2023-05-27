@@ -2,13 +2,13 @@
     <Head :title="mensajero.nombre" />
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ mensajero.nombre }}
             </h2>
         </template>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="flex justify-between p-4 mb-2 text-gray-600">
+                <div class="flex justify-between p-4 mb-2 text-gray-600 dark:text-gray-400">
                     <p class="text-2xl font-semibold">Entregas pedientes: {{ pendientes }}</p>
                     <p class="text-2xl font-semibold">Pendiente por cobrar: ${{ cobroPendiente }}</p>
                     <p class="text-2xl font-semibold">Comisión de hoy: ${{ cobroHoy }}</p>
