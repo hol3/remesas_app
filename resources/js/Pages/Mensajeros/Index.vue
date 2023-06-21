@@ -6,7 +6,7 @@
                 Mensajeros
             </h2>
         </template>
-        <MensajeroForm @close="openModal" :modal-active="modalActive"/>    
+        <MensajeroForm @close="openModal" :modal-active="modalActive" :profile="_profile"/>    
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex flex-wrap overflow-hidden">
@@ -14,9 +14,9 @@
                         <PrimaryButton @click="openModal">Agregar mensajero</PrimaryButton>
                     </div>
                     <div class="flex p-4 justify-center items-center min-w-full">
-                        <div class="grid gap-4 sm:grid-cols-4 bg-white p-4 shadow-lg sm:rounded-lg">
+                        <div class="grid gap-4 sm:grid-cols-4 bg-white dark:bg-slate-600 p-4 shadow-lg sm:rounded-lg">
                             <div v-for="mensajero in props.mensajeros" :key="mensajero.id">
-                                <CardComponent :profile="mensajero" />
+                                <CardComponent :profile="mensajero" @edit="openModalforEdit"/>
                             </div>
                         </div>
                     </div>                                      
@@ -35,6 +35,7 @@ import MensajeroForm from '@/Components/MensajeroForm.vue';
 import CardComponent from '@/Components/CardComponent.vue';
 
 const modalActive = ref(false)
+const _profile = ref()
 
 const props = defineProps({
     mensajeros: {
@@ -48,6 +49,12 @@ const init = () => {
 }
 
 init()
+
+const openModalforEdit = (data) => {
+    console.log(data)
+    modalActive.value = !modalActive.value
+    _profile.value = data
+}
 
 const openModal = () => {
     modalActive.value = !modalActive.value

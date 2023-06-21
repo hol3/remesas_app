@@ -1,5 +1,5 @@
 <template>
-    <div v-show="modalActive" class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
+    <div v-show="modalActive" class="fixed inset-0 flex items-center self-center justify-center bg-gray-700 bg-opacity-50">
         <div class="w-[640px] max-w-2xl p-6 bg-white rounded-md shadow-xl">
             <div class="flex items-center justify-between">
                 <h3 class="text-2xl uppercase">{{ remesa.codigo }}</h3>

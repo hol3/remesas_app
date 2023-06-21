@@ -104,22 +104,22 @@
                     </div>
                     <div>
                         <h1 class="font-bold text-2xl text-gray-600 dark:text-gray-200">Resumen</h1>
-                        <div class="bg-white dark:bg-slate-600 dark:text-gray-200 p-4 mt-4 rounded-lg shadow-lg hover:shadow-none transition-all ease-in-out duration-300">
+                        <div class="bg-white dark:bg-slate-600 dark:text-gray-200 p-4 my-4 rounded-lg shadow-lg hover:shadow-none transition-all ease-in-out duration-300">
                             <table class="w-full">
                                 <tr v-for="totalMoneda in totalencaja" class="border-b dark:border-gray-800">
                                     <td class="py-4 font-semibold">{{ totalMoneda.nombre }}</td>
                                     <td class="py-4 text-right">{{ totalMoneda.cantidad }}</td>
                                 </tr>
                             </table>
-                            <div class="w-full my-4">
-                                <h2 class="font-semibold text-lg">Dinero pendiente por entregar</h2>
-                                <table class="w-full">
-                                    <tr v-for="dinero in dineroPendiente" class="border-b dark:border-gray-800">
-                                        <td class="py-4 font-semibold">{{ dinero.nombre }}</td>
-                                        <td class="py-4 text-right">{{ dinero.cantidad }}</td>
-                                    </tr>
-                                </table>
-                            </div>                      
+                        </div>
+                        <h2 class="font-semibold text-lg text-gray-600 dark:text-gray-200">Dinero pendiente por entregar</h2>
+                        <div class="bg-white dark:bg-slate-600 dark:text-gray-200 p-4 mt-4 rounded-lg shadow-lg hover:shadow-none transition-all ease-in-out duration-300">                            
+                            <table class="w-full">
+                                <tr v-for="dinero in dineroPendiente" class="border-b dark:border-gray-800">
+                                    <td class="py-4 font-semibold">{{ dinero.nombre }}</td>
+                                    <td class="py-4 text-right">{{ dinero.cantidad }}</td>
+                                </tr>
+                            </table>                                                 
                         </div>
                     </div>
                 </div>

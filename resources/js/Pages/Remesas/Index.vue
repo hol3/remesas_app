@@ -13,7 +13,9 @@
                 <div class="flex justify-end mb-4">
                     <PrimaryButton @click="showForm">Nueva entrega</PrimaryButton>
                 </div>
-                <RemesasComponent :remesas="remesas" :pagination="pagination" />
+                <div class="bg-white dark:bg-slate-600 overflow-hidden shadow-sm sm:rounded-lg">
+                    <RemesasComponent :remesas="remesas" :pagination="pagination" />
+                </div>                
             </div>
         </div>
     </AuthenticatedLayout>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EfectivoEnCajaController;
+use App\Http\Controllers\EfectivoMensajeroController;
 use App\Http\Controllers\MensajeroController;
 use App\Http\Controllers\MonedaController;
 use App\Http\Controllers\RemesaController;
@@ -45,7 +46,9 @@ Route::resource('/dinero', EfectivoEnCajaController::class)
 
 Route::resource('/moneda', MonedaController::class)
     ->only(['index', 'store', 'update', 'destroy'])
-    ->middleware(['auth']); 
+    ->middleware(['auth']);
+
+Route::post('/mensajero/efectivo', [MensajeroController::class, 'addEfectivo'])->middleware(['auth'])->name('mensajero.efectivo');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 

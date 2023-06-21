@@ -24,6 +24,10 @@
                         <TextInput id="comision" type="number" class="mt-1 block w-full" placeholder="0.00" v-model="form.comision" />
                         <InputError class="mt-2" :message="form.errors.salario" />
                     </div>
+                    <div class="mt-4 flex">                        
+                        <input type="checkbox" class="h-6 w-6 rounded-full shadow" name="tiene_efectivo" id="tiene_efectivo" v-model="form.tiene_efectivo">
+                        <InputLabel for="tiene_efectivo" class="flex flex-col px-2 justify-center" value="Tiene efectivo?" />
+                    </div>
                     <div class="mt-4 flex justify-end">
                         <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing" type="submit">Guardar</PrimaryButton>
                     </div>
@@ -44,13 +48,18 @@ const props = defineProps({
     modalActive: {
         type: Boolean,
         default: false
+    },
+    profile: {
+        type: Object,
+        default: ({})
     }
 })
 
 const form = useForm({
-    nombre: '',
-    telefono: '',
-    comision: '',
+    nombre: props.profile.nombre,
+    telefono: props.profile.telefono,
+    comision: props.profile.comision,
+    tiene_efectivo: props.profile.tiene_efectivo,
 })
 
 const emit = defineEmits(['close'])
