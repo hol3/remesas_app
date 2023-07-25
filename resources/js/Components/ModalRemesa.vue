@@ -19,7 +19,7 @@
             <div class="mt-4 p-2 flex justify-end">
                 <PrimaryButton v-if="remesa.estado === 0" @click="copyFunc(remesa)" class="bg-blue-700 hover:bg-blue-800 active:bg-blue-900 my-2"><IconCopy /></PrimaryButton>
                 <Link :href="route('remesas.edit', remesa.id)" class="inline-flex items-center ml-2 px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest my-2 bg-blue-600 hover:bg-blue-800 active:bg-blue-900"><IconEdit /></Link>                
-                <PrimaryButton v-if="remesa.estado === 0" class="bg-red-700 hover:bg-red-800 active:bg-red-900 ml-2 my-2"><IconTrash /></PrimaryButton>                
+                <PrimaryButton v-if="remesa.estado === 0" @click="eliminarFactura(remesa.id)" class="bg-red-700 hover:bg-red-800 active:bg-red-900 ml-2 my-2"><IconTrash /></PrimaryButton>                
                 <PrimaryButton v-if="remesa.estado === 0" @click="cerrarFactura(remesa.id)" class="bg-green-600 hover:bg-green-800 active:bg-green-900 ml-2 my-2"><IconCheck /></PrimaryButton>
             </div>
         </div>
@@ -67,6 +67,16 @@ const cerrarFactura = (id) => {
     {
         factura.id = id
         factura.put(route('remesas.close', id))
+        close()
+    }
+}
+
+const eliminarFactura = (id) => {
+    console.log(id)
+    if(confirm("Está seguro de eliminar la factura?"))
+    {
+        factura.id = id
+        factura.delete(route('remesas.destroy', id))
         close()
     }
 }
