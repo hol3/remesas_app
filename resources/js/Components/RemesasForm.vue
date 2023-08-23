@@ -111,6 +111,24 @@ const form = useForm({
     mensajero_id: '',
 })
 
+const parseData = (data) => {
+
+    let factura = data.match(/Factura:\s(.+?)\./)[1];
+    let fecha = data.match(/Fecha:\s(.+?)\./)[1];
+    let nombre = data.match(/Nombre:\s(.+?)\./)[1];
+    let telefono = data.match(/Teléfono:\s(.+?)\./)[1];
+    let valor = data.match(/Valor:\s(.+?)\./)[1];
+    let comision = data.match(/Comisión:\s(.+?)\./)[1];
+    let bono = data.match(/Bono:\s(.+?)\./)[1];
+    let localidad = data.match(/Localidad:\s(.+?)\./)[1];
+    let direccion = data.match(/Dirección:\s(.+?)\./)[1];
+    let puntoDeReferencia = data.match(/Punto de Referencia:\s(.+?)\./)[1];
+    let url = data.match(/URL:\s(.+)/)[1];
+
+    //get currency
+    let [value, currency] = valor.match(/([\d.,]+)\s(.+)/).slice(1);
+}
+
 const submit = () => {
     // console.log('Acabo de envier el formulario!!')    
     // console.log(form)
