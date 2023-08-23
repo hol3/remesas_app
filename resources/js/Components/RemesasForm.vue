@@ -1,11 +1,9 @@
 <template>
-    <div v-show="formActive" class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
+    <div v-show="formActive" class="fixed inset-0 flex items-center self-center justify-center bg-gray-700 bg-opacity-50 backdrop-blur-sm">
         <div class="w-[640px] max-w-2xl h-4/5 overflow-auto lg:h-auto bg-white rounded-md shadow-sm p-4">
             <div class="flex items-center justify-between">
                 <h3 class="text-2xl mr-6">Nueva Entrega</h3>
-                <Link @click="close">
-                <IconX />
-                </Link>
+                <IconX @click="close"/>
             </div>
             <form @submit.prevent="submit" class="grid grid-cols-2 gap-2">
                 <div class="mt-2 col-span-2">
