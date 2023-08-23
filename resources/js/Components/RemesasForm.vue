@@ -127,6 +127,9 @@ const parseData = (data) => {
 
     //get currency
     let [value, currency] = valor.match(/([\d.,]+)\s(.+)/).slice(1);
+
+    //get municipio
+    let [provincia, municipio] = localidad.split(" / ");
 }
 
 const submit = () => {
