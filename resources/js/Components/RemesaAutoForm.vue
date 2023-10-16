@@ -10,8 +10,13 @@
                 <h3 class="text-2xl mr-6">Nuevo Formulario (Beta)</h3>
                 <IconX @click="close" />
             </div>
-            <div class="flex mt-2 items-center justify-between border-4 border-dashed rounded-md">
-                <form @submit.prevent="procesar" class="m-2 flex items-center justify-between w-full">
+            <div
+                class="flex mt-2 items-center justify-between border-4 border-dashed rounded-md"
+            >
+                <form
+                    @submit.prevent="procesar"
+                    class="m-2 flex items-center justify-between w-full"
+                >
                     <TextInput
                         id="remesa"
                         type="text"
@@ -177,7 +182,7 @@ const props = defineProps({
     provincias: null,
     monedas: {
         type: Object,
-        default: null
+        default: null,
     },
     mensajeros: null,
 });
@@ -204,11 +209,10 @@ const procesar = () => {
 };
 
 const hasComma = (str) => {
-    return str.includes(",")
-}
+    return str.includes(",");
+};
 
 const parseData = (data) => {
-
     var lines = data.split(". ");
     var data = {};
     lines.forEach((line) => {
@@ -220,38 +224,44 @@ const parseData = (data) => {
         }
     });
 
-    console.log(data)
-    form.codigo = data.Factura
-    form.nombre_cliente = data.Nombre
-    form.telefono = data.Teléfono
-    form.direccion = data.Dirección
+    console.log(data);
+    form.codigo = data.Factura;
+    form.nombre_cliente = data.Nombre;
+    form.telefono = data.Teléfono;
+    form.direccion = data.Dirección;
 
     let [cantidad, v_currency] = data.Valor.match(/([\d.,]+)\s(.+)/).slice(1);
 
-    if(hasComma(cantidad))
-    {
-        cantidad = cantidad.replace(/,/g, '')
+    if (hasComma(cantidad)) {
+        cantidad = cantidad.replace(/,/g, "");
     }
 
     // let value = "10,000.00".replace(/,/g, '');
 
-    let [comision, c_currency] = data.Comisión.match(/([\d.,]+)\s(.+)/).slice(1);
+    let [comision, c_currency] =
+        data.Comisión.match(/([\d.,]+)\s(.+)/).slice(1);
 
-    if(hasComma(comision))
-    {
-        comision = comision.replace(/,/g, '')
+    if (hasComma(comision)) {
+        comision = comision.replace(/,/g, "");
     }
 
     let [provincia, municipio] = data.Localidad.split(" / ");
-    form.cantidad = cantidad
-    form.comision = comision
+    form.cantidad = cantidad;
+    form.comision = comision;
 
     // console.log(props.monedas)
     // console.log(props.provincias)
 
-    let monedas = props.monedas
+    let monedas = props.monedas;
 
-    let municipios = props.provincias[0].municipio
+    let municipios = props.provincias[0].municipio;
+
+    const regex =
+        /Factura:\s*(?<Factura>.+?)\.\s*Fecha:\s*(?<Fecha>.+?)\.\s*Nombre:\s*(?<Nombre>.+?)\.\s*Teléfono:\s*(?<Telefono>.+?)\.\s*Valor:\s*.+?\.\s*Comisión:\s*(?<Comision>.+?)\.\s*Bono:\s*.+?\.\s*Localidad:\s*(?<Localidad>.+?)\.\s*Dirección:\s*(?<Direccion>.+?)\.\s*Punto de Referencia:\s*(?<PuntoDeReferencia>.+?)\./;
+    const match = texto.match(regex);
+    const obj = match.groups;
+
+    console.log(obj);
 
     // console.log(municipios)
 
