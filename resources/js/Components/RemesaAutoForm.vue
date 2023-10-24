@@ -204,7 +204,8 @@ const dataToParse = useForm({
 });
 
 const procesar = () => {
-    parseData(dataToParse.remesa);
+    // parseData(dataToParse.remesa);
+    parseDataBeta(dataToParse.remesa);
     dataToParse.reset();
 };
 
@@ -321,6 +322,40 @@ const parseData = (data) => {
     // let [provincia, municipio] = localidad.split(" / ");
     // console.log(municipio)
 };
+
+const parseDataBeta = (data) => {
+    const regex =
+        /Factura:\s*(?<Factura>.+?)\.\s*Fecha:\s*(?<Fecha>.+?)\.\s*Nombre:\s*(?<Nombre>.+?)\.\s*Teléfono:\s*(?<Telefono>.+?)\.\s*Valor:\s*(?<Valor>.+?)\.\s*Comisión:\s*(?<Comision>.+?)\.\s*Bono:\s*.+?\.\s*Localidad:\s*(?<Localidad>.+?)\.\s*Dirección:\s*(?<Direccion>.+?)\.\s*Punto de Referencia:\s*(?<PuntoDeReferencia>.+?)\.\s*URL:\s*(?<url>.+?)\./;
+    const match = data.match(regex);
+    const obj = match.groups;
+
+    // console.log(obj);
+    
+    let [cantidad, v_currency] = obj.Valor.match(/([\d.,]+)\s(.+)/).slice(1);
+    console.log(v_currency);
+
+    if (hasComma(cantidad)) {
+        cantidad = cantidad.replace(/,/g, "");
+    }
+    // let value = "10,000.00".replace(/,/g, '');
+    let [comision, c_currency] =
+        obj.Comision.match(/([\d.,]+)\s(.+)/).slice(1);
+
+    if (hasComma(comision)) {
+        comision = comision.replace(/,/g, "");
+    }
+
+    //get municipio
+    let [provincia, municipio] = obj.Localidad.split(" / ");
+    console.log(municipio);
+
+    form.codigo = obj.Factura;
+    form.nombre_cliente = obj.Nombre;
+    form.telefono = obj.Telefono;
+    form.direccion = obj.Direccion + " " + obj.PuntoDeReferencia;
+    form.cantidad = cantidad;
+    form.comision = comision;
+}
 
 const submit = () => {
     // console.log('Acabo de envier el formulario!!')
