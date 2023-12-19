@@ -30,7 +30,7 @@
                     <td class="px-6 py-4 text-center hidden sm:table-cell">{{ remesa.comision }}</td>
                     <td class="px-6 py-4 text-center hidden sm:table-cell">{{ remesa.mensajero }}</td>
                     <td class="px-6 py-4 text-center hidden lg:table-cell">{{
-                        dayjs(remesa.updated_at).format('DD/MM/YYYY')
+                        dayjs(remesa.created_at).format('DD/MM/YYYY')
                     }}</td>
                 </tr>
             </tbody>
