@@ -83,7 +83,7 @@ class MensajeroController extends Controller
     {
         //
         $item = $mensajero->remesas;
-        $pagination = $mensajero->remesas()->orderBy('estado')->orderBy('created_at', 'desc')->paginate(20);
+        $pagination = $mensajero->remesas()->where('estado',0)->orderBy('estado')->orderBy('created_at', 'desc')->paginate(20);
         $pendientes = $mensajero->remesas()->where('estado', 0)->count();
         $remesasPendientes = $mensajero->remesas()->where('estado', 0)->get();
         $entregadasHoy = $mensajero->remesas()->where('estado', 1)->whereDate('updated_at', Carbon::today())->count();

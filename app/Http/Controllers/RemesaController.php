@@ -43,7 +43,7 @@ class RemesaController extends Controller
 
         // dump($data);
 
-        $result = Remesa::orderBy('estado')->orderBy('created_at', 'desc')->paginate(20);
+        $result = Remesa::orderBy('created_at', 'desc')->paginate(20);
 
         $remesas = array();
 
