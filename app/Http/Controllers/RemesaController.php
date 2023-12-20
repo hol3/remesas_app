@@ -69,12 +69,42 @@ class RemesaController extends Controller
         // dump($remesas);
 
         return Inertia::render('Remesas/Index', [
-            'remesas' => $remesas,
+            'remesas' => $this->get(),
             'pagination' => $result,
             'provincias' => $data,
             'monedas' => $monedas,
             'mensajeros' => $mensajeros,
+
+            // 'remesas' => Inertia::lazy(fn () => $this->get())
         ]);
+    }
+
+    public function get()
+    {
+        $result = Remesa::orderBy('created_at', 'desc')->paginate(20);
+
+        $remesas = array();
+
+        foreach ($result as $item) {
+            array_push($remesas, [
+                'id' => $item->id,
+                'codigo' => $item->codigo,
+                'nombre_cliente' => $item->nombre_cliente,
+                'telefono' => $item->telefono,
+                'direccion' => $item->direccion,
+                'provincia' => $item->municipio->provincia->nombre,
+                'municipio' => $item->municipio->nombre,
+                'cantidad' => $item->cantidad,
+                'moneda' => $item->moneda->nombre,
+                'comision' => $item->comision,
+                'mensajero' => $item->mensajero->nombre,
+                'estado' => $item->estado,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at
+            ]);
+        }
+
+        return $remesas;
     }
 
     /**
@@ -187,7 +217,8 @@ class RemesaController extends Controller
 
         $remesa->save();
 
-        return redirect()->route('remesas.index'); //->with('message', 'Book Updated Successfully');
+        // return redirect()->route('remesas.index'); //->with('message', 'Book Updated Successfully');
+        return back();
     }
 
     public function closeDelivery(Request $request)
@@ -196,7 +227,7 @@ class RemesaController extends Controller
         $remesa->estado = 1;
         $remesa->save();
 
-        return back();
+        // return back();
     }
 
     /**
