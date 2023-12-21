@@ -28,6 +28,7 @@
 <script setup>
 import PrimaryButton from './PrimaryButton.vue';
 import { useForm, Link } from '@inertiajs/inertia-vue3';
+import dayjs from 'dayjs';
 import relativeTime from "dayjs/plugin/relativeTime";
 import { IconCheck, IconEdit, IconTrash, IconX, IconCopy } from '@tabler/icons-vue';
 // import { computed } from 'vue';
