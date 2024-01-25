@@ -218,7 +218,7 @@ class RemesaController extends Controller
         $remesa->save();
 
         // return redirect()->route('remesas.index'); //->with('message', 'Book Updated Successfully');
-        return back();
+        return redirect()->back();
     }
 
     public function closeDelivery(Request $request)
