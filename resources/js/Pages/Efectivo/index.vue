@@ -2,23 +2,23 @@
     <Head title="Caja" />
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
                 Efectivo en caja
             </h2>
         </template>
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <div class="mx-auto border p-2 rounded-lg shadow-md max-w-3xl">
+                        <div class="max-w-3xl p-2 mx-auto border rounded-lg shadow-md">
                             <form @submit.prevent="submit">
                                 <div class="mt-2">
                                     <h3 class="text-sm font-semibold">Efectivo en caja:</h3>
                                     <p class="py-1 font-light">En este formulario se agrega el efectivo despues de recoger dinero para las entregas. Se debe poner el monto real que se tiene en caja de todas las monedas.</p>
                                     <div class="flex flex-col sm:flex-row sm:justify-between sm:space-x-2">
-                                        <TextInput id="cantidad" type="number" class="mt-1 block" required v-model="form.cantidad" placeholder="Cantidad"/>
+                                        <TextInput id="cantidad" type="number" class="block mt-1" required v-model="form.cantidad" placeholder="Cantidad"/>
                                         <select v-model="form.moneda_id" id="monedas"
-                                            class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
+                                            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                             <option v-for="moneda in monedas" v-bind:value="moneda.id">{{
                                                 moneda.nombre
                                             }}</option>
@@ -28,8 +28,8 @@
                                 </div>
                             </form>
                         </div>
-                        <table class="table-auto mt-4 table mx-auto min-w-full">
-                            <thead class="table-header-group border bg-gray-200 shadow-lg text-center">
+                        <table class="table min-w-full mx-auto mt-4 table-auto">
+                            <thead class="table-header-group text-center bg-gray-200 border shadow-lg">
                                 <tr>
                                     <th>Cantidad</th>
                                     <th>Moneda</th>
@@ -44,6 +44,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <Pagination :data="pagination" />
                     </div>
                 </div>
             </div>
@@ -61,9 +62,14 @@ import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import Pagination from '@/Components/Pagination.vue';
 
 defineProps({
     efectivo: {
+        type: Object,
+        default: () => ({})
+    },
+    pagination: {
         type: Object,
         default: () => ({})
     },

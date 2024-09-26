@@ -2,13 +2,13 @@
     <Head title="Dashboard" />
     <AuthenticatedLayout>
         <div class="sm:py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="grid sm:grid-cols-3 gap-4">                    
-                    <h1 class="sm:col-span-3 font-bold text-2xl text-gray-600 dark:text-gray-200">Entregas</h1>
+            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div class="grid gap-4 sm:grid-cols-3">                    
+                    <h1 class="text-2xl font-bold text-gray-600 sm:col-span-3 dark:text-gray-200">Entregas</h1>
                     <div
-                        class="bg-white dark:bg-slate-600 p-4 rounded-lg shadow-lg hover:shadow-none transition-all ease-in-out duration-300">
+                        class="p-4 transition-all duration-300 ease-in-out bg-white rounded-lg shadow-lg dark:bg-slate-600 hover:shadow-none">
                         <svg xmlns="http://www.w3.org/2000/svg"
-                            class="bg-violet-500 text-white rounded-full p-1 w-10 h-10" width="24" height="24"
+                            class="w-10 h-10 p-1 text-white rounded-full bg-violet-500" width="24" height="24"
                             viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                             stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -19,14 +19,14 @@
                         </svg>
                         <div class="flex items-center justify-between">
                             <div>
-                                <h3 class="text-lg text-gray-600 dark:text-gray-200 font-semibold mt-4 mb-2 ">Entregas Totales</h3>
-                                <h1 class="text-2xl text-gray-600 dark:text-gray-200 font-bold">{{ total }}</h1>
+                                <h3 class="mt-4 mb-2 text-lg font-semibold text-gray-600 dark:text-gray-200 ">Entregas Totales</h3>
+                                <h1 class="text-2xl font-bold text-gray-600 dark:text-gray-200">{{ total }}</h1>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-white dark:bg-slate-600 p-4 rounded-lg shadow-lg hover:shadow-none transition-all duration-300">
+                    <div class="p-4 transition-all duration-300 bg-white rounded-lg shadow-lg dark:bg-slate-600 hover:shadow-none">
                         <svg xmlns="http://www.w3.org/2000/svg"
-                            class="bg-lime-500 text-white rounded-full p-1 w-10 h-10" width="24" height="24"
+                            class="w-10 h-10 p-1 text-white rounded-full bg-lime-500" width="24" height="24"
                             viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                             stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -36,14 +36,14 @@
                         </svg>
                         <div class="flex items-center justify-between">
                             <div>
-                                <h3 class="text-lg text-gray-600 dark:text-gray-200 font-semibold mt-4 mb-2">Entregadas</h3>
-                                <h1 class="text-2xl text-gray-600 dark:text-gray-200 font-bold">{{ entregadas }}</h1>
+                                <h3 class="mt-4 mb-2 text-lg font-semibold text-gray-600 dark:text-gray-200">Entregadas</h3>
+                                <h1 class="text-2xl font-bold text-gray-600 dark:text-gray-200">{{ entregadas }}</h1>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-white dark:bg-slate-600 p-4 rounded-lg shadow-lg hover:shadow-none transition-all duration-300">
+                    <div class="p-4 transition-all duration-300 bg-white rounded-lg shadow-lg dark:bg-slate-600 hover:shadow-none">
                         <svg xmlns="http://www.w3.org/2000/svg"
-                            class="bg-pink-500 text-white rounded-full p-1 w-10 h-10" width="24" height="24"
+                            class="w-10 h-10 p-1 text-white bg-pink-500 rounded-full" width="24" height="24"
                             viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                             stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -55,24 +55,24 @@
                         </svg>
                         <div class="flex items-center justify-between">
                             <div>
-                                <h3 class="text-lg text-gray-600 dark:text-gray-200 font-semibold mt-4 mb-2">Pendientes</h3>
-                                <h1 class="text-2xl text-gray-600 dark:text-gray-200 font-bold">{{ pendientes }}</h1>
+                                <h3 class="mt-4 mb-2 text-lg font-semibold text-gray-600 dark:text-gray-200">Pendientes</h3>
+                                <h1 class="text-2xl font-bold text-gray-600 dark:text-gray-200">{{ pendientes }}</h1>
                             </div>
                         </div>
                     </div>
                     <div class="sm:col-span-2">
-                        <h1 class="font-bold text-2xl text-gray-600 dark:text-gray-200">Entregas pendientes</h1>
+                        <h1 class="text-2xl font-bold text-gray-600 dark:text-gray-200">Entregas pendientes</h1>
                         <div
-                            class="bg-white dark:bg-slate-600 mt-4 p-4 rounded-lg shadow-lg hover:shadow-none transition-all duration-300">
+                            class="p-4 mt-4 transition-all duration-300 bg-white rounded-lg shadow-lg dark:bg-slate-600 hover:shadow-none">
                             
-                            <table class="w-full text-sm text-left text-gray-500 my-4">
+                            <table class="w-full my-4 text-sm text-left text-gray-500">
                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-slate-800 dark:text-gray-200">
                                     <tr>
                                         <th class="px-6 py-3 text-center">Factura</th>
-                                        <th class="px-6 py-3 text-center hidden md:table-cell">Nombre</th>
-                                        <th class="px-6 py-3 text-center hidden lg:table-cell">Cantidad</th>
-                                        <th class="px-6 py-3 text-center hidden xl:table-cell">Moneda</th>
-                                        <th class="px-6 py-3 text-center hidden xl:table-cell">Fecha</th>
+                                        <th class="hidden px-6 py-3 text-center md:table-cell">Nombre</th>
+                                        <th class="hidden px-6 py-3 text-center lg:table-cell">Cantidad</th>
+                                        <th class="hidden px-6 py-3 text-center xl:table-cell">Moneda</th>
+                                        <th class="hidden px-6 py-3 text-center xl:table-cell">Fecha</th>
                                         <th class="px-6 py-3 text-center">Cerrar factura</th>
                                     </tr>
                                 </thead>
@@ -82,18 +82,18 @@
                                         <td class="px-6 py-1 font-medium text-gray-900 dark:text-gray-200 whitespace-nowrap">{{
                                             remesa.codigo
                                         }}</td>
-                                        <td class="px-6 py-1 hidden md:table-cell">{{ remesa.nombre_cliente }}</td>
-                                        <td class="px-6 py-1 text-center hidden lg:table-cell">{{ remesa.cantidad }}
+                                        <td class="hidden px-6 py-1 md:table-cell">{{ remesa.nombre_cliente }}</td>
+                                        <td class="hidden px-6 py-1 text-center lg:table-cell">{{ remesa.cantidad }}
                                         </td>
-                                        <td class="px-6 py-1 text-center hidden xl:table-cell">{{ remesa.moneda }}</td>
-                                        <td class="px-6 py-1 text-center hidden xl:table-cell">{{
+                                        <td class="hidden px-6 py-1 text-center xl:table-cell">{{ remesa.moneda }}</td>
+                                        <td class="hidden px-6 py-1 text-center xl:table-cell">{{
                                             dayjs(remesa.created_at).format('DD/MM/YYYY')
                                         }}</td>
                                         <td class="px-6 py-1 text-center">
                                             <button
-                                                class="text-center bg-green-600 hover:bg-green-800 active:bg-green-900 rounded-full p-1 transition-all duration-300"
+                                                class="p-1 text-center transition-all duration-300 bg-green-600 rounded-full hover:bg-green-800 active:bg-green-900"
                                                 @click="close(remesa.id)">
-                                                <IconCheck class="text-white font-semibold" />
+                                                <IconCheck color="white" :size="24" stroke-width="2" />
                                             </button>
                                         </td>
                                     </tr>
@@ -103,8 +103,8 @@
                         </div>
                     </div>
                     <div>
-                        <h1 class="font-bold text-2xl text-gray-600 dark:text-gray-200">Resumen</h1>
-                        <div class="bg-white dark:bg-slate-600 dark:text-gray-200 p-4 my-4 rounded-lg shadow-lg hover:shadow-none transition-all ease-in-out duration-300">
+                        <h1 class="text-2xl font-bold text-gray-600 dark:text-gray-200">Resumen</h1>
+                        <div class="p-4 my-4 transition-all duration-300 ease-in-out bg-white rounded-lg shadow-lg dark:bg-slate-600 dark:text-gray-200 hover:shadow-none">
                             <table class="w-full">
                                 <tr v-for="totalMoneda in totalencaja" class="border-b dark:border-gray-800">
                                     <td class="py-4 font-semibold">{{ totalMoneda.nombre }}</td>
@@ -112,8 +112,8 @@
                                 </tr>
                             </table>
                         </div>
-                        <h2 class="font-semibold text-lg text-gray-600 dark:text-gray-200">Dinero pendiente por entregar</h2>
-                        <div class="bg-white dark:bg-slate-600 dark:text-gray-200 p-4 mt-4 rounded-lg shadow-lg hover:shadow-none transition-all ease-in-out duration-300">                            
+                        <h2 class="text-lg font-semibold text-gray-600 dark:text-gray-200">Dinero pendiente por entregar</h2>
+                        <div class="p-4 mt-4 transition-all duration-300 ease-in-out bg-white rounded-lg shadow-lg dark:bg-slate-600 dark:text-gray-200 hover:shadow-none">                            
                             <table class="w-full">
                                 <tr v-for="dinero in dineroPendiente" class="border-b dark:border-gray-800">
                                     <td class="py-4 font-semibold">{{ dinero.nombre }}</td>

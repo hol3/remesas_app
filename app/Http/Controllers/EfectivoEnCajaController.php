@@ -16,7 +16,7 @@ class EfectivoEnCajaController extends Controller
      */
     public function index()
     {
-        $result = EfectivoEnCaja::latest('id')->paginate(10);
+        $result = EfectivoEnCaja::latest('id')->paginate(100);
         $dinero = [];
         
         foreach($result as $item)
@@ -33,6 +33,7 @@ class EfectivoEnCajaController extends Controller
         $monedas = Moneda::all();
 
         return Inertia::render('Efectivo/index', [
+            'pagination' => $result,
             'efectivo' => $dinero,
             'monedas' => $monedas
         ]);

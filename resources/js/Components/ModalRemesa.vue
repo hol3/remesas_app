@@ -3,10 +3,10 @@
         <div class="w-[640px] max-w-2xl p-6 bg-white rounded-md shadow-xl">
             <div class="flex items-center justify-between">
                 <h3 class="text-2xl uppercase">{{ remesa.codigo }}</h3>
-                <IconX @click="close"/>
+                <IconX :size="24" @click="close"/>
             </div>
             <div class="mt-4">
-                <div class="border rounded-md p-2">
+                <div class="p-2 border rounded-md">
                     <p><span class="font-bold">Factura: </span>{{ remesa.codigo }}</p>
                     <p><span class="font-bold">Cliente: </span>{{ remesa.nombre }}</p>
                     <p><span class="font-bold">Telefono: </span>{{ remesa.telefono }}</p>
@@ -16,11 +16,11 @@
                     <p><span class="font-bold">Mensajero: </span>{{ remesa.mensajero }}</p>   
                 </div>                                                            
             </div>
-            <div class="mt-4 p-2 flex justify-end">
-                <PrimaryButton v-if="remesa.estado === 0" @click="copyFunc(remesa)" class="bg-blue-700 hover:bg-blue-800 active:bg-blue-900 my-2"><IconCopy /></PrimaryButton>
-                <Link :href="route('remesas.edit', remesa.id)" class="inline-flex items-center ml-2 px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest my-2 bg-blue-600 hover:bg-blue-800 active:bg-blue-900"><IconEdit /></Link>                
-                <PrimaryButton v-if="remesa.estado === 0" @click="eliminarFactura(remesa.id)" class="bg-red-700 hover:bg-red-800 active:bg-red-900 ml-2 my-2"><IconTrash /></PrimaryButton>                
-                <PrimaryButton v-if="remesa.estado === 0" @click="cerrarFactura(remesa.id)" class="bg-green-600 hover:bg-green-800 active:bg-green-900 ml-2 my-2"><IconCheck /></PrimaryButton>
+            <div class="flex justify-end p-2 mt-4">
+                <PrimaryButton v-if="remesa.estado === 0" @click="copyFunc(remesa)" class="my-2 bg-blue-700 hover:bg-blue-800 active:bg-blue-900"><IconCopy :color="white" :size="24" :stroke="2" /></PrimaryButton>
+                <Link :href="route('remesas.edit', remesa.id)" class="inline-flex items-center px-4 py-2 my-2 ml-2 text-xs font-semibold tracking-widest text-white uppercase bg-blue-600 border border-transparent rounded-md hover:bg-blue-800 active:bg-blue-900"><IconEdit :color="white" :size="24" :stroke="2" /></Link>                
+                <PrimaryButton v-if="remesa.estado === 0" @click="eliminarFactura(remesa.id)" class="my-2 ml-2 bg-red-700 hover:bg-red-800 active:bg-red-900"><IconTrash :color="white" :size="24" :stroke="2" /></PrimaryButton>                
+                <PrimaryButton v-if="remesa.estado === 0" @click="cerrarFactura(remesa.id)" class="my-2 ml-2 bg-green-600 hover:bg-green-800 active:bg-green-900"><IconCheck :color="white" :size="24" :stroke="2" /></PrimaryButton>
             </div>
         </div>
     </div>
