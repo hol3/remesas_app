@@ -2,22 +2,28 @@
     <Head title="Remesas" />
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
                 Remesas
             </h2>
         </template>
-        <RemesasForm @close="showForm" :form-active="formActive" :provincias="props.provincias" :monedas="props.monedas" :mensajeros="props.mensajeros" />    
-        <RemesaAutoForm @close="showAutoForm" :form-active="autoFormActive" :provincias="props.provincias" :monedas="props.monedas" :mensajeros="props.mensajeros" />    
+        <RemesasForm @close="showForm" :form-active="formActive" :provincias="props.provincias" :monedas="props.monedas" :mensajeros="props.mensajeros" />
+        <RemesaAutoForm @close="showAutoForm" :form-active="autoFormActive" :provincias="props.provincias" :monedas="props.monedas" :mensajeros="props.mensajeros" />
         <!-- Listado de Remesas -->
-        <div class="py-12">            
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="flex justify-end mb-4 gap-2">
+        <div class="py-12">
+            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div class="flex justify-end gap-2 mb-4">
                     <PrimaryButton @click="showForm">Nueva entrega</PrimaryButton>
                     <PrimaryButton @click="showAutoForm">Nueva entrega auto</PrimaryButton>
                 </div>
-                <div class="bg-white dark:bg-slate-600 overflow-hidden shadow-sm sm:rounded-lg">
-                    <RemesasComponent :remesas="remesas" :pagination="pagination" />
-                </div>                
+                <div class="overflow-hidden bg-white shadow-sm dark:bg-slate-600 sm:rounded-lg">
+                    <Suspense>
+                        <AsyncRemesas :remesas="remesas" :pagination="pagination" />
+
+                        <template #fallback>
+                            Cargando...
+                        </template>
+                    </Suspense>
+                </div>
             </div>
         </div>
     </AuthenticatedLayout>
@@ -32,7 +38,10 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import RemesasComponent from '@/Components/RemesasComponent.vue';
 import RemesasForm from '@/Components/RemesasForm.vue';
 import RemesaAutoForm from '@/Components/RemesaAutoForm.vue';
-import { ref } from 'vue';
+import { ref, defineAsyncComponent } from 'vue';
+
+const AsyncRemesas = defineAsyncComponent(() =>
+    import('@/Components/RemesasComponent.vue'))
 
 dayjs.extend(relativeTime)
 
@@ -40,7 +49,7 @@ const props = defineProps({
     remesas: {
         type: Object,
         default: () => ({})
-    },    
+    },
     pagination: {
         type: Object,
         default: () => ({})
@@ -81,7 +90,7 @@ const showAutoForm = () => {
 // const submit = () => {
 //     form.post(route('remesas.store'))
 //     console.log(form)
-//     form.reset()    
+//     form.reset()
 // }
 
 // function destroy(id) {

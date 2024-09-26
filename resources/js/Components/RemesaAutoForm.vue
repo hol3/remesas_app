@@ -1,14 +1,14 @@
 <template>
     <div
         v-show="formActive"
-        class="fixed inset-0 flex items-center self-center justify-center bg-gray-700 bg-opacity-50 backdrop-blur-sm"
+        class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 backdrop-blur-sm"
     >
         <div
             class="w-[640px] max-w-2xl h-4/5 overflow-auto lg:h-auto bg-white rounded-md shadow-sm p-4"
         >
             <div class="flex items-center justify-between">
                 <h3 class="mr-6 text-2xl">Nuevo Formulario (Beta)</h3>
-                <IconX @click="close" />
+                <IconX :size="24" @click="close" />
             </div>
             <div
                 class="flex items-center justify-between mt-2 border-4 border-dashed rounded-md"

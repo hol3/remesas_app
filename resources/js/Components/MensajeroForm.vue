@@ -2,33 +2,33 @@
     <div v-show="modalActive" class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
         <div class="max-w-2xl p-6 bg-white rounded-md shadow-xl">
             <div class="flex items-center justify-between">
-                <h3 class="text-2xl mr-6">Nuevo mensajero</h3>
-                <Link @click="close">
+                <h3 class="mr-6 text-2xl">Nuevo mensajero</h3>
+                <Link :size="24" @click="close">
                     <IconX />
-                </Link>                
+                </Link>
             </div>
             <div>
                 <form @submit.prevent="submit">
                     <div class="mt-4">
                         <InputLabel for="nombre" value="Nombre:" />
-                        <TextInput id="nombre" type="text" class="mt-1 block w-full" placeholder="ej: John Smith" required v-model="form.nombre" />
+                        <TextInput id="nombre" type="text" class="block w-full mt-1" placeholder="ej: John Smith" required v-model="form.nombre" />
                         <InputError class="mt-2" :message="form.errors.nombre" />
                     </div>
                     <div class="mt-4">
                         <InputLabel for="telefono" value="Teléfono:" />
-                        <TextInput id="telefono" type="tel" class="mt-1 block w-full" required v-model="form.telefono" />
+                        <TextInput id="telefono" type="tel" class="block w-full mt-1" required v-model="form.telefono" />
                         <InputError class="mt-2" :message="form.errors.telefono" />
                     </div>
                     <div class="mt-4">
                         <InputLabel for="comision" value="Comisión:" />
-                        <TextInput id="comision" type="number" class="mt-1 block w-full" placeholder="0.00" v-model="form.comision" />
+                        <TextInput id="comision" type="number" class="block w-full mt-1" placeholder="0.00" v-model="form.comision" />
                         <InputError class="mt-2" :message="form.errors.salario" />
                     </div>
-                    <div class="mt-4 flex">                        
-                        <input type="checkbox" class="h-6 w-6 rounded-full shadow" name="tiene_efectivo" id="tiene_efectivo" v-model="form.tiene_efectivo">
-                        <InputLabel for="tiene_efectivo" class="flex flex-col px-2 justify-center" value="Tiene efectivo?" />
+                    <div class="flex mt-4">
+                        <input type="checkbox" class="w-6 h-6 rounded-full shadow" name="tiene_efectivo" id="tiene_efectivo" v-model="form.tiene_efectivo">
+                        <InputLabel for="tiene_efectivo" class="flex flex-col justify-center px-2" value="Tiene efectivo?" />
                     </div>
-                    <div class="mt-4 flex justify-end">
+                    <div class="flex justify-end mt-4">
                         <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing" type="submit">Guardar</PrimaryButton>
                     </div>
                 </form>
@@ -64,7 +64,7 @@ const form = useForm({
 
 const emit = defineEmits(['close'])
 
-const submit = () => { 
+const submit = () => {
     console.log("Hola Mundo!!")
     form.post(route("mensajeros.store"))
     close()
