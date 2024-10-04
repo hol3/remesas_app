@@ -108,24 +108,24 @@ class MensajeroController extends Controller
             }
         }
 
-        foreach ($pagination as $item) {
-            array_push($remesas, [
-                'id' => $item->id,
-                'codigo' => $item->codigo,
-                'nombre_cliente' => $item->nombre_cliente,
-                'telefono' => $item->telefono,
-                'direccion' => $item->direccion,
-                'provincia' => $item->municipio->provincia->nombre,
-                'municipio' => $item->municipio->nombre,
-                'cantidad' => $item->cantidad,
-                'moneda' => $item->moneda->nombre,                
-                'comision' => $this->comision($mensajero->comision, $item->comision),
-                'mensajero' => $item->mensajero->nombre,
-                'estado' => $item->estado,
-                'created_at' => $item->created_at,
-                'updated_at' => $item->updated_at
-            ]);
-        }
+        // foreach ($pagination as $item) {
+        //     array_push($remesas, [
+        //         'id' => $item->id,
+        //         'codigo' => $item->codigo,
+        //         'nombre_cliente' => $item->nombre_cliente,
+        //         'telefono' => $item->telefono,
+        //         'direccion' => $item->direccion,
+        //         'provincia' => $item->municipio->provincia->nombre,
+        //         'municipio' => $item->municipio->nombre,
+        //         'cantidad' => $item->cantidad,
+        //         'moneda' => $item->moneda->nombre,                
+        //         'comision' => $this->comision($mensajero->comision, $item->comision),
+        //         'mensajero' => $item->mensajero->nombre,
+        //         'estado' => $item->estado,
+        //         'created_at' => $item->created_at,
+        //         'updated_at' => $item->updated_at
+        //     ]);
+        // }
 
         $efectivo = [];
         $ultimaAsignacion = [];
@@ -161,11 +161,11 @@ class MensajeroController extends Controller
             }          
         }
         
-        // dump($ultimaAsignacion);
+        // dd($pagination);
 
         return Inertia::render('Mensajeros/Show', [
             'mensajero' => $mensajero,
-            'remesas' => $remesas,
+            'remesas' => $remesasPendientes,
             'pendientes' => $pendientes,
             'cobroPendiente' => $cobroPendiente,
             'ultimaAsignacion' => $ultimaAsignacion,
