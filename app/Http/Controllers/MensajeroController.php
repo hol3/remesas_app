@@ -83,13 +83,11 @@ class MensajeroController extends Controller
     {
         //
         $item = $mensajero->remesas;
-        $pagination = $mensajero->remesas()->where('estado',0)->orderBy('estado')->orderBy('created_at', 'desc')->paginate(20);
+        // $pagination = $mensajero->remesas()->where('estado',0)->orderBy('estado')->orderBy('created_at', 'desc')->paginate(20);
         $pendientes = $mensajero->remesas()->where('estado', 0)->count();
         $remesasPendientes = $mensajero->remesas()->where('estado', 0)->get();
         $entregadasHoy = $mensajero->remesas()->where('estado', 1)->whereDate('updated_at', Carbon::today())->count();
         $entregasHoy = $mensajero->remesas()->where('estado', 1)->whereDate('updated_at', Carbon::today())->get();
- 
-        $remesas = array();
 
         $cobro = 0;
         $cobroPendiente = 0;
@@ -107,25 +105,6 @@ class MensajeroController extends Controller
                 $cobro += $entrega->comision;                
             }
         }
-
-        // foreach ($pagination as $item) {
-        //     array_push($remesas, [
-        //         'id' => $item->id,
-        //         'codigo' => $item->codigo,
-        //         'nombre_cliente' => $item->nombre_cliente,
-        //         'telefono' => $item->telefono,
-        //         'direccion' => $item->direccion,
-        //         'provincia' => $item->municipio->provincia->nombre,
-        //         'municipio' => $item->municipio->nombre,
-        //         'cantidad' => $item->cantidad,
-        //         'moneda' => $item->moneda->nombre,                
-        //         'comision' => $this->comision($mensajero->comision, $item->comision),
-        //         'mensajero' => $item->mensajero->nombre,
-        //         'estado' => $item->estado,
-        //         'created_at' => $item->created_at,
-        //         'updated_at' => $item->updated_at
-        //     ]);
-        // }
 
         $efectivo = [];
         $ultimaAsignacion = [];
@@ -165,15 +144,43 @@ class MensajeroController extends Controller
 
         return Inertia::render('Mensajeros/Show', [
             'mensajero' => $mensajero,
-            'remesas' => $remesasPendientes,
+            // 'remesas' => $remesasPendientes,
             'pendientes' => $pendientes,
             'cobroPendiente' => $cobroPendiente,
             'ultimaAsignacion' => $ultimaAsignacion,
-            'pagination' => $pagination,
+            // 'pagination' => $pagination,
             'cobroHoy' => $cobro,            
             'efectivo' => $efectivo,
             'monedas' => Moneda::all()
         ]);
+    }
+
+    public function getRemesas(Mensajero $mensajero)
+    {
+        $items = $mensajero->remesas()->orderBy('estado')->orderBy('created_at', 'desc')->paginate(20);
+
+        $remesas = array();
+
+        foreach ($items as $item) {
+            array_push($remesas, [
+                'id' => $item->id,
+                'codigo' => $item->codigo,
+                'nombre_cliente' => $item->nombre_cliente,
+                'telefono' => $item->telefono,
+                'direccion' => $item->direccion,
+                'provincia' => $item->municipio->provincia->nombre,
+                'municipio' => $item->municipio->nombre,
+                'cantidad' => $item->cantidad,
+                'moneda' => $item->moneda->nombre,                
+                'comision' => $this->comision($mensajero->comision, $item->comision),
+                'mensajero' => $item->mensajero->nombre,
+                'estado' => $item->estado,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at
+            ]);
+        }
+
+        return response()->json($remesas);
     }
     
     private function ultimaAsignacion($mensajero_id, $moneda_id)

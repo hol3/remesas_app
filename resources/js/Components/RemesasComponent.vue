@@ -40,10 +40,11 @@
     <ModalRemesa @close="showModal" :modal-active="modalActive" :remesa="remesa" />
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import dayjs from 'dayjs';
 import ModalRemesa from './ModalRemesa.vue';
 import Pagination from './Pagination.vue';
+// import axios from 'axios';
 
 const props = defineProps({
     remesas: {
@@ -55,6 +56,20 @@ const props = defineProps({
         default: () => ({})
     },
 })
+
+// onMounted(() => {
+//     axios.get('/json/remesas-data')
+//         .then(response => {
+//             remesas.remesas = response.data
+//         })
+//         .catch(error => {
+//             console.error('Error fetching data:', error)
+//         })
+// })
+
+// const remesas = {
+//     remesas: Array()
+// }
 
 const remesa = {
     id: '',

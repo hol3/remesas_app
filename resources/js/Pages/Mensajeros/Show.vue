@@ -59,9 +59,11 @@
                                     <h2 class="mb-2 text-xl font-bold sm:col-span-3 dark:text-gray-300">Efectivo</h2>
                                     <table class="w-full dark:text-gray-300">
                                         <thead class="uppercase dark:bg-slate-700 dark:text-gray-300">
-                                            <th>Moneda</th>
-                                            <th>a entregar (cobro incluido)</th>
-                                            <th>Efectivo restante</th>
+                                            <tr>
+                                                <th>Moneda</th>
+                                                <th>a entregar (cobro incluido)</th>
+                                                <th>Efectivo restante</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
                                             <tr v-for="efectivo in props.efectivo" :key="efectivo.id"
@@ -77,9 +79,11 @@
                                     <h2 class="mb-2 text-xl font-bold sm:col-span-3 dark:text-gray-300">Última Asignación</h2>
                                     <table class="w-full dark:text-gray-300">
                                         <thead class="uppercase dark:bg-slate-700 dark:text-gray-300">
-                                            <th>Moneda</th>
-                                            <th>Cantidad</th>
-                                            <th>Fecha</th>
+                                            <tr>
+                                                <th>Moneda</th>
+                                                <th>Cantidad</th>
+                                                <th>Fecha</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
                                             <tr v-for="asignacion in props.ultimaAsignacion" :key="asignacion.id"
@@ -101,7 +105,8 @@
                             </div>
                         </div>
                     </div>
-                    <RemesasComponent :remesas="remesas" :pagination="pagination" />
+                    <!-- <RemesasComponent :remesas="remesas" :pagination="pagination" /> -->
+                    <NewRemesasComponent :url="route('mensajero.remesas', mensajero)" />
                 </div>
             </div>
         </div>
@@ -111,12 +116,13 @@
 import { Head, useForm } from '@inertiajs/inertia-vue3';
 import dayjs from 'dayjs';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import RemesasComponent from '@/Components/RemesasComponent.vue';
+// import RemesasComponent from '@/Components/RemesasComponent.vue';
 import EfectivoMensajeroComponent from '@/Components/EfectivoMensajeroComponent.vue';
 import InputLabel from '@/Components/InputLabel.vue'
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import NewRemesasComponent from '@/Components/NewRemesasComponent.vue';
 
 const props = defineProps({
     mensajero: {

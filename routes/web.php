@@ -36,6 +36,8 @@ Route::resource('/remesas', RemesaController::class)
     ->only(['index','store', 'edit', 'update','destroy'])
     ->middleware(['auth']);
 
+// Route::get('/json/remesas-data', [RemesaController::class, 'getRemesas'])->middleware(['auth']);
+
 Route::resource('/mensajeros', MensajeroController::class)
     ->only(['index','store', 'edit', 'update','destroy', 'show'])
     ->middleware(['auth']);
@@ -51,5 +53,10 @@ Route::resource('/moneda', MonedaController::class)
 Route::post('/mensajero/efectivo', [MensajeroController::class, 'addEfectivo'])->middleware(['auth'])->name('mensajero.efectivo');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware(['auth'])->group(function (){
+    Route::get('/json/remesas-data', [RemesaController::class, 'getRemesas'])->name('remesas.json');
+    Route::get('/json/{mensajero}/remesas-data', [MensajeroController::class, 'getRemesas'])->name('mensajero.remesas');
+});
 
 require __DIR__.'/auth.php';

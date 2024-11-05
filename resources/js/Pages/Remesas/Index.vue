@@ -16,13 +16,7 @@
                     <PrimaryButton @click="showAutoForm">Nueva entrega auto</PrimaryButton>
                 </div>
                 <div class="overflow-hidden bg-white shadow-sm dark:bg-slate-600 sm:rounded-lg">
-                    <Suspense>
-                        <AsyncRemesas :remesas="remesas" :pagination="pagination" />
-
-                        <template #fallback>
-                            Cargando...
-                        </template>
-                    </Suspense>
+                    <NewRemesasComponent :url="route('remesas.json')"/>
                 </div>
             </div>
         </div>
@@ -35,13 +29,10 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm } from '@inertiajs/inertia-vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import RemesasComponent from '@/Components/RemesasComponent.vue';
 import RemesasForm from '@/Components/RemesasForm.vue';
 import RemesaAutoForm from '@/Components/RemesaAutoForm.vue';
 import { ref, defineAsyncComponent } from 'vue';
-
-const AsyncRemesas = defineAsyncComponent(() =>
-    import('@/Components/RemesasComponent.vue'))
+import NewRemesasComponent from '@/Components/NewRemesasComponent.vue';
 
 dayjs.extend(relativeTime)
 

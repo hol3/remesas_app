@@ -107,6 +107,34 @@ class RemesaController extends Controller
         return $remesas;
     }
 
+    public function getRemesas()
+    {
+        $result = Remesa::orderBy('created_at', 'desc')->paginate(20);
+
+        $remesas = array();
+
+        foreach ($result as $item) {
+            array_push($remesas, [
+                'id' => $item->id,
+                'codigo' => $item->codigo,
+                'nombre_cliente' => $item->nombre_cliente,
+                'telefono' => $item->telefono,
+                'direccion' => $item->direccion,
+                'provincia' => $item->municipio->provincia->nombre,
+                'municipio' => $item->municipio->nombre,
+                'cantidad' => $item->cantidad,
+                'moneda' => $item->moneda->nombre,
+                'comision' => $item->comision,
+                'mensajero' => $item->mensajero->nombre,
+                'estado' => $item->estado,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at
+            ]);
+        }
+
+        return response()->json($remesas);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
