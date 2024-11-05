@@ -82,12 +82,12 @@ class MensajeroController extends Controller
     public function show(Mensajero $mensajero)
     {
         //
-        $item = $mensajero->remesas;
+        // $item = $mensajero->remesas;
         // $pagination = $mensajero->remesas()->where('estado',0)->orderBy('estado')->orderBy('created_at', 'desc')->paginate(20);
         $pendientes = $mensajero->remesas()->where('estado', 0)->count();
-        $remesasPendientes = $mensajero->remesas()->where('estado', 0)->get();
-        $entregadasHoy = $mensajero->remesas()->where('estado', 1)->whereDate('updated_at', Carbon::today())->count();
-        $entregasHoy = $mensajero->remesas()->where('estado', 1)->whereDate('updated_at', Carbon::today())->get();
+        // $remesasPendientes = $mensajero->remesas()->where('estado', 0)->get();
+        // $entregadasHoy = $mensajero->remesas()->where('estado', 1)->whereDate('updated_at', Carbon::today())->count();
+        // $entregasHoy = $mensajero->remesas()->where('estado', 1)->whereDate('updated_at', Carbon::today())->get();
 
         $cobro = 0;
         $cobroPendiente = 0;
@@ -95,15 +95,11 @@ class MensajeroController extends Controller
         // dd($remesasPendientes);
 
         if($mensajero->comision > 0){
-            $cobro = $entregadasHoy * $mensajero->comision;
+            $cobro = $mensajero->remesas()->where('estado', 1)->whereDate('updated_at', Carbon::today())->count() * $mensajero->comision;
             $cobroPendiente = $pendientes * $mensajero->comision;            
         }else{
-            foreach($remesasPendientes as $remesa){
-                $cobroPendiente += $remesa->comision;
-            }
-            foreach($entregasHoy as $entrega){
-                $cobro += $entrega->comision;                
-            }
+            $cobroPendiente = $mensajero->remesas()->where('estado', 0)->sum('comision');
+            $cobro = $mensajero->remesas()->where('estado', 1)->whereDate('updated_at', Carbon::today())->sum('comision');
         }
 
         $efectivo = [];
