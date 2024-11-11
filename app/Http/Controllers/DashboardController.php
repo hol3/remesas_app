@@ -28,24 +28,24 @@ class DashboardController extends Controller
         $remesas = Remesa::where('estado', 0)->latest('id')->paginate(10);
         // $remesasSinEntregar = Remesa::where('estado', '=', 0);
 
-        $remesasSixMonth = Remesa::where("created_at", ">", Carbon::now()->subWeek()->format("Y-m-d H:i:s"))->get();
+        // $remesasSixMonth = Remesa::where("created_at", ">", Carbon::now()->subWeek()->format("Y-m-d H:i:s"))->get();
 
-        $data = array();
+        // $data = array();
 
-        foreach ($remesas as $item) {
-            array_push($data, [
-                'id' => $item->id,
-                'codigo' => $item->codigo,
-                'nombre_cliente' => $item->nombre_cliente,
-                'telefono' => $item->telefono,
-                'direccion' => $item->direccion,
-                'municipio' => $item->municipio->nombre,
-                'cantidad' => $item->cantidad,
-                'moneda' => $item->moneda->nombre,
-                'comision' => $item->comision,
-                'created_at' => $item->created_at,
-            ]);
-        }
+        // foreach ($remesas as $item) {
+        //     array_push($data, [
+        //         'id' => $item->id,
+        //         'codigo' => $item->codigo,
+        //         'nombre_cliente' => $item->nombre_cliente,
+        //         'telefono' => $item->telefono,
+        //         'direccion' => $item->direccion,
+        //         'municipio' => $item->municipio->nombre,
+        //         'cantidad' => $item->cantidad,
+        //         'moneda' => $item->moneda->nombre,
+        //         'comision' => $item->comision,
+        //         'created_at' => $item->created_at,
+        //     ]);
+        // }
 
         /**
          * FIN REMESAS
@@ -89,7 +89,7 @@ class DashboardController extends Controller
 
         //Leyendo entregas desde la ultima recogida de dinero
         //$entregas = Remesa::whereDate();
-        
+        // dd($remesas);
         
         // $dinero = "";
         return Inertia::render('Dashboard', [
@@ -97,7 +97,7 @@ class DashboardController extends Controller
             'entregadas' => $totalEntregadas,
             'pendientes' => $totalPendientes,
             'totalencaja' => $totalEnCaja,
-            'remesas' => $data,
+            'remesas' => $remesas,
             'pagination' => $remesas,
             'dineroPendiente' => $efectivoPendiente,
         ]);

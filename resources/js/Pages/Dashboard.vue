@@ -77,7 +77,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="remesa in props.remesas" :key="remesa.id"
+                                    <tr v-for="remesa in props.remesas.data" :key="remesa.id"
                                         class="border-b hover:bg-gray-100 dark:bg-slate-700 dark:border-gray-900 dark:hover:bg-gray-800">
                                         <td class="px-6 py-1 font-medium text-gray-900 dark:text-gray-200 whitespace-nowrap">{{
                                             remesa.codigo
@@ -133,7 +133,7 @@ import { Head, useForm } from "@inertiajs/inertia-vue3";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime"
 import { IconCheck } from "@tabler/icons-vue";
-import DashboardComponent from "@/Components/DashboardComponent.vue";
+//import DashboardComponent from "@/Components/DashboardComponent.vue";
 
 import Pagination from "@/Components/Pagination.vue";
 
@@ -177,11 +177,11 @@ const close = (id) => {
 }
 // console.log(remesas)
 
-// const init = () => {
-//     console.log(props.remesas)
-//     console.log(props.total)
-// }
+const init = () => {
+    console.log(props.remesas)
+    console.log(props.total)
+}
 
-// init()
+init()
 
 </script>
