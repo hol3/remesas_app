@@ -83,12 +83,12 @@ class MensajeroController extends Controller
     {
         //
         $item = $mensajero->remesas;
-        $pagination = $mensajero->remesas()->where('estado',0)->orderBy('estado')->orderBy('created_at', 'desc')->paginate(20);
+        $pagination = $mensajero->remesas()->orderBy('estado')->orderBy('created_at', 'desc')->paginate(20);
         $pendientes = $mensajero->remesas()->where('estado', 0)->count();
-        $remesasPendientes = $mensajero->remesas()->where('estado', 0)->get();
+        // $remesasPendientes = $mensajero->remesas()->where('estado', 0)->get();
         $entregadasHoy = $mensajero->remesas()->where('estado', 1)->whereDate('updated_at', Carbon::today())->count();
-        $entregasHoy = $mensajero->remesas()->where('estado', 1)->whereDate('updated_at', Carbon::today())->get();
- 
+        // $entregasHoy = $mensajero->remesas()->where('estado', 1)->whereDate('updated_at', Carbon::today())->get();
+
         $remesas = array();
 
         $cobro = 0;
@@ -98,14 +98,10 @@ class MensajeroController extends Controller
 
         if($mensajero->comision > 0){
             $cobro = $entregadasHoy * $mensajero->comision;
-            $cobroPendiente = $pendientes * $mensajero->comision;            
+            $cobroPendiente = $pendientes * $mensajero->comision;
         }else{
-            foreach($remesasPendientes as $remesa){
-                $cobroPendiente += $remesa->comision;
-            }
-            foreach($entregasHoy as $entrega){
-                $cobro += $entrega->comision;                
-            }
+            $cobroPendiente = $mensajero->remesas()->where('estado', 0)->sum("comision");
+            $cobro = $mensajero->remesas()->where('estado', 1)->whereDate('updated_at', Carbon::today())->sum("comision");
         }
 
         foreach ($pagination as $item) {
@@ -118,7 +114,7 @@ class MensajeroController extends Controller
                 'provincia' => $item->municipio->provincia->nombre,
                 'municipio' => $item->municipio->nombre,
                 'cantidad' => $item->cantidad,
-                'moneda' => $item->moneda->nombre,                
+                'moneda' => $item->moneda->nombre,
                 'comision' => $this->comision($mensajero->comision, $item->comision),
                 'mensajero' => $item->mensajero->nombre,
                 'estado' => $item->estado,
@@ -158,24 +154,24 @@ class MensajeroController extends Controller
                     'cantidadPorEntregar' => $this->EfectivoXEntregar($item, $mensajero),
                     'cantidadEnCaja' => 'No tiene'
                 ]);
-            }          
+            }
         }
-        
+
         // dump($ultimaAsignacion);
 
         return Inertia::render('Mensajeros/Show', [
             'mensajero' => $mensajero,
-            'remesas' => $remesas,
+            // 'remesas' => $remesas,
             'pendientes' => $pendientes,
             'cobroPendiente' => $cobroPendiente,
             'ultimaAsignacion' => $ultimaAsignacion,
             'pagination' => $pagination,
-            'cobroHoy' => $cobro,            
+            'cobroHoy' => $cobro,
             'efectivo' => $efectivo,
             'monedas' => Moneda::all()
         ]);
     }
-    
+
     private function ultimaAsignacion($mensajero_id, $moneda_id)
     {
         $query = EfectivoMensajero::where('mensajero_id', $mensajero_id)->where('moneda_id', $moneda_id)->latest('created_at')->first();
@@ -189,18 +185,18 @@ class MensajeroController extends Controller
         }
     }
 
-    private function CalcularComision($comision, $entregas)
-    {
-        $result = 0;
-        if($comision > 0){
-            $result = count($entregas) * $comision;
-        }else{
-            foreach($entregas as $entrega){
-                $result += $entrega->comision;
-            }
-        }
-        return $result;
-    }
+    // private function CalcularComision($comision, $entregas)
+    // {
+    //     $result = 0;
+    //     if($comision > 0){
+    //         $result = count($entregas) * $comision;
+    //     }else{
+    //         foreach($entregas as $entrega){
+    //             $result += $entrega->comision;
+    //         }
+    //     }
+    //     return $result;
+    // }
 
     private function comision($x, $y)
     {
@@ -225,9 +221,9 @@ class MensajeroController extends Controller
         $efectivo->moneda_id = $request->moneda_id;
         $efectivo->mensajero_id = $request->mensajero_id;
         $efectivo->save();
-        
+
         // dump($efectivo);
-        
+
         return back();
     }
 

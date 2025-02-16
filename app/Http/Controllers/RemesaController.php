@@ -32,7 +32,7 @@ class RemesaController extends Controller
         foreach($provincias as $provincia)
         {
             // $municipios = [];
-                        
+
             array_push($data, [
                 'nombre' => $provincia->nombre,
                 'municipio' => $provincia->municipios
@@ -44,6 +44,8 @@ class RemesaController extends Controller
         // dump($data);
 
         $result = Remesa::orderBy('created_at', 'desc')->paginate(20);
+
+
 
         $remesas = array();
 
@@ -57,7 +59,7 @@ class RemesaController extends Controller
                 'provincia' => $item->municipio->provincia->nombre,
                 'municipio' => $item->municipio->nombre,
                 'cantidad' => $item->cantidad,
-                'moneda' => $item->moneda->nombre,                
+                'moneda' => $item->moneda->nombre,
                 'comision' => $item->comision,
                 'mensajero' => $item->mensajero->nombre,
                 'estado' => $item->estado,
@@ -65,11 +67,11 @@ class RemesaController extends Controller
                 'updated_at' => $item->updated_at
             ]);
         }
-        
+
         // dump($remesas);
 
         return Inertia::render('Remesas/Index', [
-            'remesas' => $this->get(),
+            // 'remesas' => $this->get(),
             'pagination' => $result,
             'provincias' => $data,
             'monedas' => $monedas,
@@ -126,7 +128,7 @@ class RemesaController extends Controller
     public function store(Request $request)
     {
 
-        Validator::make($request->all(),[            
+        Validator::make($request->all(),[
             'nombre_cliente' => ['required'],
             'direccion' => ['required'],
             'municipio_id' => ['required'],
@@ -135,7 +137,7 @@ class RemesaController extends Controller
             'moneda_id' => ['required'],
             'mensajero_id'=> ['required']
         ])->validate();
-        
+
         $remesa = new Remesa();
         $remesa->codigo = $request->codigo;
         $remesa->nombre_cliente = $request->nombre_cliente;

@@ -25,7 +25,7 @@ class DashboardController extends Controller
         //Total pendientes
         $totalPendientes = Remesa::where('estado', 0)->count();
         //Remesas sin entregar
-        $remesas = Remesa::where('estado', 0)->latest('id')->paginate(10);
+        $remesas = Remesa::where('estado', 0)->latest('id')->get();
         // $remesasSinEntregar = Remesa::where('estado', '=', 0);
 
         $remesasSixMonth = Remesa::where("created_at", ">", Carbon::now()->subWeek()->format("Y-m-d H:i:s"))->get();
@@ -59,7 +59,7 @@ class DashboardController extends Controller
         $totalEntregado = [];
         $totalEnCaja = [];
         $efectivoPendiente = [];
-        
+
         foreach(Moneda::all() as $item)
         {
             array_push($efectivoTotal, [
@@ -85,12 +85,12 @@ class DashboardController extends Controller
         // dump($remesasSixMonth);
 
         // dd($efectivoPendiente);
-        
+
 
         //Leyendo entregas desde la ultima recogida de dinero
         //$entregas = Remesa::whereDate();
-        
-        
+
+
         // $dinero = "";
         return Inertia::render('Dashboard', [
             'total' => $total,
@@ -98,7 +98,7 @@ class DashboardController extends Controller
             'pendientes' => $totalPendientes,
             'totalencaja' => $totalEnCaja,
             'remesas' => $data,
-            'pagination' => $remesas,
+            // 'pagination' => $remesas,
             'dineroPendiente' => $efectivoPendiente,
         ]);
     }

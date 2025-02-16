@@ -3,7 +3,7 @@
     <AuthenticatedLayout>
         <div class="sm:py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div class="grid gap-4 sm:grid-cols-3">                    
+                <div class="grid gap-4 sm:grid-cols-3">
                     <h1 class="text-2xl font-bold text-gray-600 sm:col-span-3 dark:text-gray-200">Entregas</h1>
                     <div
                         class="p-4 transition-all duration-300 ease-in-out bg-white rounded-lg shadow-lg dark:bg-slate-600 hover:shadow-none">
@@ -64,7 +64,7 @@
                         <h1 class="text-2xl font-bold text-gray-600 dark:text-gray-200">Entregas pendientes</h1>
                         <div
                             class="p-4 mt-4 transition-all duration-300 bg-white rounded-lg shadow-lg dark:bg-slate-600 hover:shadow-none">
-                            
+
                             <table class="w-full my-4 text-sm text-left text-gray-500">
                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-slate-800 dark:text-gray-200">
                                     <tr>
@@ -99,7 +99,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <Pagination :data="pagination" />
+                            <!-- <Pagination :data="pagination" /> -->
                         </div>
                     </div>
                     <div>
@@ -113,13 +113,13 @@
                             </table>
                         </div>
                         <h2 class="text-lg font-semibold text-gray-600 dark:text-gray-200">Dinero pendiente por entregar</h2>
-                        <div class="p-4 mt-4 transition-all duration-300 ease-in-out bg-white rounded-lg shadow-lg dark:bg-slate-600 dark:text-gray-200 hover:shadow-none">                            
+                        <div class="p-4 mt-4 transition-all duration-300 ease-in-out bg-white rounded-lg shadow-lg dark:bg-slate-600 dark:text-gray-200 hover:shadow-none">
                             <table class="w-full">
                                 <tr v-for="dinero in dineroPendiente" class="border-b dark:border-gray-800">
                                     <td class="py-4 font-semibold">{{ dinero.nombre }}</td>
                                     <td class="py-4 text-right">{{ dinero.cantidad }}</td>
                                 </tr>
-                            </table>                                                 
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -167,7 +167,7 @@ const entrega = useForm({
 
 const close = (id) => {
     // console.log(id)
-    
+
     // console.log(entrega)
     if(confirm("Está seguro de cerrar esta entrega?"))
     {
