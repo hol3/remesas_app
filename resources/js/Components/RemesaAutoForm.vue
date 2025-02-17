@@ -7,33 +7,33 @@
             class="w-[640px] max-w-2xl h-4/5 overflow-auto lg:h-auto bg-white rounded-md shadow-sm p-4"
         >
             <div class="flex items-center justify-between">
-                <h3 class="text-2xl mr-6">Nuevo Formulario (Beta)</h3>
+                <h3 class="mr-6 text-2xl">Nuevo Formulario (Beta)</h3>
                 <IconX @click="close" />
             </div>
             <div
-                class="flex mt-2 items-center justify-between border-4 border-dashed rounded-md"
+                class="flex items-center justify-between mt-2 border-4 border-dashed rounded-md"
             >
                 <form
                     @submit.prevent="procesar"
-                    class="m-2 flex items-center justify-between w-full"
+                    class="flex items-center justify-between w-full m-2"
                 >
                     <TextInput
                         id="remesa"
                         type="text"
                         v-model="dataToParse.remesa"
                         placeholder="Pega la factura aqui"
-                        class="grow mr-2"
+                        class="mr-2 grow"
                     />
                     <PrimaryButton>Procesar</PrimaryButton>
                 </form>
             </div>
             <form @submit.prevent="submit" class="grid grid-cols-2 gap-2">
-                <div class="mt-2 col-span-2">
+                <div class="col-span-2 mt-2">
                     <InputLabel for="codigo" value="Codigo:" />
                     <TextInput
                         id="codigo"
                         type="text"
-                        class="mt-1 block w-full"
+                        class="block w-full mt-1"
                         v-model="form.codigo"
                         required
                         autofocus
@@ -49,7 +49,7 @@
                     <TextInput
                         id="nombre_cliente"
                         type="text"
-                        class="mt-1 block w-full"
+                        class="block w-full mt-1"
                         v-model="form.nombre_cliente"
                         required
                         autocomplete="nombre_cliente"
@@ -64,7 +64,7 @@
                     <TextInput
                         id="telefono"
                         type="tel"
-                        class="mt-1 block w-full"
+                        class="block w-full mt-1"
                         v-model="form.telefono"
                     />
                     <InputError class="mt-2" :message="form.errors.direccion" />
@@ -76,7 +76,7 @@
                         type="number"
                         step="0.01"
                         required
-                        class="mt-1 block w-full"
+                        class="block w-full mt-1"
                         v-model="form.cantidad"
                     />
                     <InputError class="mt-2" :message="form.errors.cantidad" />
@@ -87,7 +87,7 @@
                         v-model="form.moneda_id"
                         id="monedas"
                         required
-                        class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                        class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     >
                         <option
                             v-for="moneda in monedas"
@@ -97,25 +97,25 @@
                         </option>
                     </select>
                 </div>
-                <div class="mt-2 col-span-2">
+                <div class="col-span-2 mt-2">
                     <InputLabel for="comision" value="Comision:" />
                     <TextInput
                         id="comision"
                         type="number"
-                        class="mt-1 block w-full"
+                        class="block w-full mt-1"
                         step="0.01"
                         v-model="form.comision"
                         required
                     />
                     <InputError class="mt-2" :message="form.errors.comision" />
                 </div>
-                <div class="mt-2 col-span-2">
+                <div class="col-span-2 mt-2">
                     <InputLabel for="municipios" value="Municipio" />
                     <select
                         v-model="form.municipio_id"
                         id="municipios"
                         required
-                        class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                        class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     >
                         <option value=""></option>
                         <option
@@ -126,23 +126,23 @@
                         </option>
                     </select>
                 </div>
-                <div class="mt-2 col-span-2">
+                <div class="col-span-2 mt-2">
                     <InputLabel for="direccion" value="Direccion:" />
                     <TextInput
                         id="direccion"
                         type="text"
-                        class="mt-1 block w-full"
+                        class="block w-full mt-1"
                         v-model="form.direccion"
                     />
                     <InputError class="mt-2" :message="form.errors.direccion" />
                 </div>
-                <div class="mt-2 col-span-2">
+                <div class="col-span-2 mt-2">
                     <InputLabel for="mensajero" value="Mensajero:" />
                     <select
                         v-model="form.mensajero_id"
                         id="mensajero"
                         required
-                        class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                        class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     >
                         <option value="">Seleccione un mensajero</option>
                         <option
@@ -153,7 +153,7 @@
                         </option>
                     </select>
                 </div>
-                <div class="mt-4 col-span-2">
+                <div class="col-span-2 mt-4">
                     <div class="flex justify-end">
                         <PrimaryButton
                             :class="{ 'opacity-25': form.processing }"
@@ -330,7 +330,7 @@ const parseDataBeta = (data) => {
     const obj = match.groups;
 
     // console.log(obj);
-    
+
     let [cantidad, v_currency] = obj.Valor.match(/([\d.,]+)\s(.+)/).slice(1);
     console.log(v_currency);
 
@@ -348,6 +348,16 @@ const parseDataBeta = (data) => {
     //get municipio
     let [provincia, municipio] = obj.Localidad.split(" / ");
     console.log(municipio);
+
+    let monedas = props.monedas
+
+    for(let index = 0; index < monedas.length; index++)
+    {
+        if(monedas[index].nombre === v_currency)
+        {
+            form.moneda_id = monedas[index].id;
+        }
+    }
 
     form.codigo = obj.Factura;
     form.nombre_cliente = obj.Nombre;
