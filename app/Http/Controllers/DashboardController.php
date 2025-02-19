@@ -25,7 +25,7 @@ class DashboardController extends Controller
         //Total pendientes
         $totalPendientes = Remesa::where('estado', 0)->count();
         //Remesas sin entregar
-        $remesas = Remesa::where('estado', 0)->latest('id')->get();
+        $remesas = Remesa::where('estado', 'pendiente')->latest('id')->get();
         // $remesasSinEntregar = Remesa::where('estado', '=', 0);
 
         $remesasSixMonth = Remesa::where("created_at", ">", Carbon::now()->subWeek()->format("Y-m-d H:i:s"))->get();
@@ -38,12 +38,16 @@ class DashboardController extends Controller
                 'codigo' => $item->codigo,
                 'nombre_cliente' => $item->nombre_cliente,
                 'telefono' => $item->telefono,
+                'localidad' => $item->localidad,
                 'direccion' => $item->direccion,
-                'municipio' => $item->municipio->nombre,
                 'cantidad' => $item->cantidad,
                 'moneda' => $item->moneda->nombre,
                 'comision' => $item->comision,
+                'moneda_comision' => $item->comision,
+                'mensajero' => $item->mensajero->nombre,
+                'estado' => $item->estado,
                 'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at
             ]);
         }
 

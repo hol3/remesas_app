@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\RemesaEstados;
 use App\Models\EfectivoEnCaja;
 use App\Models\Mensajero;
 use App\Models\Moneda;
-use App\Models\Municipio;
-use App\Models\Provincia;
 use App\Models\Remesa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
-use Spatie\LaravelIgnition\Recorders\DumpRecorder\Dump;
 
 class RemesaController extends Controller
 {
@@ -23,29 +21,12 @@ class RemesaController extends Controller
     public function index()
     {
 
-        $provincias = Provincia::all();
         $monedas = Moneda::all();
         $mensajeros = Mensajero::all();
 
         $data = [];
 
-        foreach($provincias as $provincia)
-        {
-            // $municipios = [];
-
-            array_push($data, [
-                'nombre' => $provincia->nombre,
-                'municipio' => $provincia->municipios
-            ]);
-        }
-
-        // dd($data);
-
-        // dump($data);
-
         $result = Remesa::orderBy('created_at', 'desc')->paginate(20);
-
-
 
         $remesas = array();
 
@@ -55,12 +36,12 @@ class RemesaController extends Controller
                 'codigo' => $item->codigo,
                 'nombre_cliente' => $item->nombre_cliente,
                 'telefono' => $item->telefono,
+                'localidad' => $item->localidad,
                 'direccion' => $item->direccion,
-                'provincia' => $item->municipio->provincia->nombre,
-                'municipio' => $item->municipio->nombre,
                 'cantidad' => $item->cantidad,
                 'moneda' => $item->moneda->nombre,
                 'comision' => $item->comision,
+                'moneda_comision' => $item->comision,
                 'mensajero' => $item->mensajero->nombre,
                 'estado' => $item->estado,
                 'created_at' => $item->created_at,
@@ -93,12 +74,12 @@ class RemesaController extends Controller
                 'codigo' => $item->codigo,
                 'nombre_cliente' => $item->nombre_cliente,
                 'telefono' => $item->telefono,
+                'localidad' => $item->localidad,
                 'direccion' => $item->direccion,
-                'provincia' => $item->municipio->provincia->nombre,
-                'municipio' => $item->municipio->nombre,
                 'cantidad' => $item->cantidad,
                 'moneda' => $item->moneda->nombre,
                 'comision' => $item->comision,
+                'moneda_comision' => $item->comision,
                 'mensajero' => $item->mensajero->nombre,
                 'estado' => $item->estado,
                 'created_at' => $item->created_at,
@@ -131,23 +112,26 @@ class RemesaController extends Controller
         Validator::make($request->all(),[
             'nombre_cliente' => ['required'],
             'direccion' => ['required'],
-            'municipio_id' => ['required'],
+            'localidad' => ['required'],
             'comision' => ['required'],
+            'moneda_comision' => ['required'],
             'cantidad' => ['required'],
             'moneda_id' => ['required'],
-            'mensajero_id'=> ['required']
+            'mensajero_id'=> ['required'],
         ])->validate();
 
         $remesa = new Remesa();
         $remesa->codigo = $request->codigo;
         $remesa->nombre_cliente = $request->nombre_cliente;
         $remesa->direccion = $request->direccion;
-        $remesa->municipio_id = $request->municipio_id;
+        $remesa->localidad = $request->localidad;
         $remesa->telefono = $request->telefono;
         $remesa->cantidad = $request->cantidad;
         $remesa->moneda_id = $request->moneda_id;
         $remesa->comision = $request->comision;
+        $remesa->comicion_moneda_id = $request->moneda_comision;
         $remesa->mensajero_id = $request->mensajero_id;
+        $remesa->referencia = $request->referencia;
 
         $remesa->save();
 
@@ -175,24 +159,12 @@ class RemesaController extends Controller
      */
     public function edit(Remesa $remesa)
     {
-        $provincias = Provincia::all();
         $monedas = Moneda::all();
         $mensajeros = Mensajero::all();
 
-        $data = [];
-
-        foreach ($provincias as $provincia) {
-            // $municipios = [];
-
-            array_push($data, [
-                'nombre' => $provincia->nombre,
-                'municipio' => $provincia->municipios
-            ]);
-        }
         //
         return Inertia::render('Remesas/Edit', [
             'item' => $remesa,
-            'provincias' => $data,
             'monedas' => $monedas,
             'mensajeros' => $mensajeros,
         ]);
@@ -210,7 +182,7 @@ class RemesaController extends Controller
         $remesa->codigo = $request->codigo;
         $remesa->nombre_cliente = $request->nombre_cliente;
         $remesa->direccion = $request->direccion;
-        $remesa->municipio_id = $request->municipio_id;
+        $remesa->localidad = $request->localidad;
         $remesa->telefono = $request->telefono;
         $remesa->cantidad = $request->cantidad;
         $remesa->moneda_id = $request->moneda_id;
@@ -226,7 +198,7 @@ class RemesaController extends Controller
     public function closeDelivery(Request $request)
     {
         $remesa = Remesa::find($request->id);
-        $remesa->estado = 1;
+        $remesa->estado = RemesaEstados::Completado;
         $remesa->save();
 
         // return back();

@@ -175,7 +175,7 @@ const close = (id) => {
         entrega.put(route('remesas.close', id))
     }
 }
-// console.log(remesas)
+console.log(props.remesas)
 
 // const init = () => {
 //     console.log(props.remesas)

@@ -6,14 +6,12 @@
                 Remesas
             </h2>
         </template>
-        <RemesasForm @close="showForm" :form-active="formActive" :provincias="props.provincias" :monedas="props.monedas" :mensajeros="props.mensajeros" />
-        <RemesaAutoForm @close="showAutoForm" :form-active="autoFormActive" :provincias="props.provincias" :monedas="props.monedas" :mensajeros="props.mensajeros" />
+        <RemesaAutoForm @close="showAutoForm" :form-active="autoFormActive" :monedas="props.monedas" :mensajeros="props.mensajeros" />
         <!-- Listado de Remesas -->
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="flex justify-end gap-2 mb-4">
-                    <PrimaryButton @click="showForm">Nueva entrega</PrimaryButton>
-                    <PrimaryButton @click="showAutoForm">Nueva entrega auto</PrimaryButton>
+                    <PrimaryButton @click="showAutoForm">Nueva entrega</PrimaryButton>
                 </div>
                 <div class="overflow-hidden bg-white shadow-sm dark:bg-slate-600 sm:rounded-lg">
                     <RemesasComponent :remesas="pagination" :pagination="pagination" />
@@ -30,7 +28,6 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm } from '@inertiajs/inertia-vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import RemesasComponent from '@/Components/RemesasComponent.vue';
-import RemesasForm from '@/Components/RemesasForm.vue';
 import RemesaAutoForm from '@/Components/RemesaAutoForm.vue';
 import { ref } from 'vue';
 
@@ -45,7 +42,6 @@ const props = defineProps({
         type: Object,
         default: () => ({})
     },
-    provincias: null,
     monedas: null,
     mensajeros: null,
 })
@@ -59,7 +55,7 @@ const form = useForm({
     nombre_cliente: '',
     telefono: '',
     direccion: '',
-    municipio_id: '',
+    localidad: '',
     cantidad: '',
     moneda_id: '',
     comision: '',

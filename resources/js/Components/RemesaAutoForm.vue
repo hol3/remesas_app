@@ -1,168 +1,213 @@
 <template>
     <div
         v-show="formActive"
-        class="fixed inset-0 flex items-center self-center justify-center bg-gray-700 bg-opacity-50 backdrop-blur-sm"
+        class="fixed inset-0 flex items-center self-center justify-center h-screen bg-gray-700 bg-opacity-50 backdrop-blur-sm"
     >
         <div
-            class="w-[640px] max-w-2xl h-4/5 overflow-auto lg:h-auto bg-white rounded-md shadow-sm p-4"
+            class="w-[640px] max-w-2xl h-[95%] bg-white rounded-md shadow-sm p-4"
         >
-            <div class="flex items-center justify-between">
-                <h3 class="mr-6 text-2xl">Nuevo Formulario (Beta)</h3>
+            <div class="flex items-center justify-between p-2">
+                <h3 class="mr-6 text-2xl">Agregar factura</h3>
                 <IconX @click="close" />
             </div>
-            <div
-                class="flex items-center justify-between mt-2 border-4 border-dashed rounded-md"
-            >
-                <form
-                    @submit.prevent="procesar"
-                    class="flex items-center justify-between w-full m-2"
+            <div class="overflow-auto h-[90%]">
+                <div
+                    class="flex items-center justify-between mt-2 border-4 border-dashed rounded-md"
                 >
-                    <TextInput
-                        id="remesa"
-                        type="text"
-                        v-model="dataToParse.remesa"
-                        placeholder="Pega la factura aqui"
-                        class="mr-2 grow"
-                    />
-                    <PrimaryButton>Procesar</PrimaryButton>
+                    <form
+                        @submit.prevent="procesar"
+                        class="flex items-center justify-between w-full m-2"
+                    >
+                        <TextInput
+                            id="remesa"
+                            type="text"
+                            v-model="dataToParse.remesa"
+                            placeholder="Pega la factura aqui"
+                            class="mr-2 grow"
+                        />
+                        <PrimaryButton>Procesar</PrimaryButton>
+                    </form>
+                </div>
+                <form @submit.prevent="submit" class="grid grid-cols-2 gap-2">
+                    <div class="col-span-2 mt-2">
+                        <InputLabel for="codigo" value="Codigo:" />
+                        <TextInput
+                            id="codigo"
+                            type="text"
+                            class="block w-full mt-1"
+                            v-model="form.codigo"
+                            required
+                            autofocus
+                            onkeyup="this.value = this.value.toUpperCase();"
+                        />
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.codigo"
+                        />
+                    </div>
+                    <div class="mt-2">
+                        <InputLabel
+                            for="nombre_cliente"
+                            value="Nombre del cliente:"
+                        />
+                        <TextInput
+                            id="nombre_cliente"
+                            type="text"
+                            class="block w-full mt-1"
+                            v-model="form.nombre_cliente"
+                            required
+                            autocomplete="nombre_cliente"
+                        />
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.nombre_cliente"
+                        />
+                    </div>
+                    <div class="mt-2">
+                        <InputLabel for="telefono" value="Telefono:" />
+                        <TextInput
+                            id="telefono"
+                            type="tel"
+                            class="block w-full mt-1"
+                            v-model="form.telefono"
+                        />
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.direccion"
+                        />
+                    </div>
+                    <div class="mt-2">
+                        <InputLabel for="cantidad" value="Cantidad:" />
+                        <TextInput
+                            id="cantidad"
+                            type="number"
+                            step="0.01"
+                            required
+                            class="block w-full mt-1"
+                            v-model="form.cantidad"
+                        />
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.cantidad"
+                        />
+                    </div>
+                    <div class="mt-2">
+                        <InputLabel for="monedas" value="Tipo de moneda" />
+                        <select
+                            v-model="form.moneda_id"
+                            id="monedas"
+                            required
+                            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        >
+                            <option
+                                v-for="moneda in monedas"
+                                v-bind:value="moneda.id"
+                            >
+                                {{ moneda.nombre }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mt-2">
+                        <InputLabel for="comision" value="Comision:" />
+                        <TextInput
+                            id="comision"
+                            type="number"
+                            class="block w-full mt-1"
+                            step="0.01"
+                            v-model="form.comision"
+                            required
+                        />
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.comision"
+                        />
+                    </div>
+                    <div class="mt-2">
+                        <InputLabel
+                            for="moneda_comision"
+                            value="Tipo de moneda"
+                        />
+                        <select
+                            v-model="form.moneda_comision"
+                            id="monedas"
+                            required
+                            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        >
+                            <option
+                                v-for="moneda in monedas"
+                                v-bind:value="moneda.id"
+                            >
+                                {{ moneda.nombre }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-span-2 mt-2">
+                        <InputLabel for="localidad" value="Localidad" />
+                        <TextInput
+                            id="localidad"
+                            type="text"
+                            class="block w-full mt-1"
+                            v-model="form.localidad"
+                        />
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.localidad"
+                        />
+                    </div>
+                    <div class="col-span-2 mt-2">
+                        <InputLabel for="direccion" value="Direccion:" />
+                        <TextInput
+                            id="direccion"
+                            type="text"
+                            class="block w-full mt-1"
+                            v-model="form.direccion"
+                        />
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.direccion"
+                        />
+                    </div>
+                    <div class="col-span-2 mt-2">
+                        <InputLabel for="referencia" value="Referencia:" />
+                        <TextInput
+                            id="referencia"
+                            type="text"
+                            class="block w-full mt-1"
+                            v-model="form.referencia"
+                        />
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.referencia"
+                        />
+                    </div>
+                    <div class="col-span-2 mt-2">
+                        <InputLabel for="mensajero" value="Mensajero:" />
+                        <select
+                            v-model="form.mensajero_id"
+                            id="mensajero"
+                            required
+                            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        >
+                            <option value="">Seleccione un mensajero</option>
+                            <option
+                                v-for="mensajero in props.mensajeros"
+                                v-bind:value="mensajero.id"
+                            >
+                                {{ mensajero.nombre }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-span-2 mt-4">
+                        <div class="flex justify-end">
+                            <PrimaryButton
+                                :class="{ 'opacity-25': form.processing }"
+                                :disabled="form.processing"
+                                >Guardar
+                            </PrimaryButton>
+                        </div>
+                    </div>
                 </form>
             </div>
-            <form @submit.prevent="submit" class="grid grid-cols-2 gap-2">
-                <div class="col-span-2 mt-2">
-                    <InputLabel for="codigo" value="Codigo:" />
-                    <TextInput
-                        id="codigo"
-                        type="text"
-                        class="block w-full mt-1"
-                        v-model="form.codigo"
-                        required
-                        autofocus
-                        onkeyup="this.value = this.value.toUpperCase();"
-                    />
-                    <InputError class="mt-2" :message="form.errors.codigo" />
-                </div>
-                <div class="mt-2">
-                    <InputLabel
-                        for="nombre_cliente"
-                        value="Nombre del cliente:"
-                    />
-                    <TextInput
-                        id="nombre_cliente"
-                        type="text"
-                        class="block w-full mt-1"
-                        v-model="form.nombre_cliente"
-                        required
-                        autocomplete="nombre_cliente"
-                    />
-                    <InputError
-                        class="mt-2"
-                        :message="form.errors.nombre_cliente"
-                    />
-                </div>
-                <div class="mt-2">
-                    <InputLabel for="telefono" value="Telefono:" />
-                    <TextInput
-                        id="telefono"
-                        type="tel"
-                        class="block w-full mt-1"
-                        v-model="form.telefono"
-                    />
-                    <InputError class="mt-2" :message="form.errors.direccion" />
-                </div>
-                <div class="mt-2">
-                    <InputLabel for="cantidad" value="Cantidad:" />
-                    <TextInput
-                        id="cantidad"
-                        type="number"
-                        step="0.01"
-                        required
-                        class="block w-full mt-1"
-                        v-model="form.cantidad"
-                    />
-                    <InputError class="mt-2" :message="form.errors.cantidad" />
-                </div>
-                <div class="mt-2">
-                    <InputLabel for="monedas" value="Tipo de moneda" />
-                    <select
-                        v-model="form.moneda_id"
-                        id="monedas"
-                        required
-                        class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    >
-                        <option
-                            v-for="moneda in monedas"
-                            v-bind:value="moneda.id"
-                        >
-                            {{ moneda.nombre }}
-                        </option>
-                    </select>
-                </div>
-                <div class="col-span-2 mt-2">
-                    <InputLabel for="comision" value="Comision:" />
-                    <TextInput
-                        id="comision"
-                        type="number"
-                        class="block w-full mt-1"
-                        step="0.01"
-                        v-model="form.comision"
-                        required
-                    />
-                    <InputError class="mt-2" :message="form.errors.comision" />
-                </div>
-                <div class="col-span-2 mt-2">
-                    <InputLabel for="municipios" value="Municipio" />
-                    <select
-                        v-model="form.municipio_id"
-                        id="municipios"
-                        required
-                        class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    >
-                        <option value=""></option>
-                        <option
-                            v-for="municipio in props.provincias[0].municipio"
-                            v-bind:value="municipio.id"
-                        >
-                            {{ municipio.nombre }}
-                        </option>
-                    </select>
-                </div>
-                <div class="col-span-2 mt-2">
-                    <InputLabel for="direccion" value="Direccion:" />
-                    <TextInput
-                        id="direccion"
-                        type="text"
-                        class="block w-full mt-1"
-                        v-model="form.direccion"
-                    />
-                    <InputError class="mt-2" :message="form.errors.direccion" />
-                </div>
-                <div class="col-span-2 mt-2">
-                    <InputLabel for="mensajero" value="Mensajero:" />
-                    <select
-                        v-model="form.mensajero_id"
-                        id="mensajero"
-                        required
-                        class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    >
-                        <option value="">Seleccione un mensajero</option>
-                        <option
-                            v-for="mensajero in props.mensajeros"
-                            v-bind:value="mensajero.id"
-                        >
-                            {{ mensajero.nombre }}
-                        </option>
-                    </select>
-                </div>
-                <div class="col-span-2 mt-4">
-                    <div class="flex justify-end">
-                        <PrimaryButton
-                            :class="{ 'opacity-25': form.processing }"
-                            :disabled="form.processing"
-                            >Guardar
-                        </PrimaryButton>
-                    </div>
-                </div>
-            </form>
         </div>
     </div>
 </template>
@@ -179,7 +224,6 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
-    provincias: null,
     monedas: {
         type: Object,
         default: null,
@@ -192,11 +236,13 @@ const form = useForm({
     nombre_cliente: "",
     telefono: "",
     direccion: "",
-    municipio_id: "",
+    localidad: "",
     cantidad: "",
     moneda_id: "",
     comision: "",
+    moneda_comision: "",
     mensajero_id: "",
+    referencia: "",
 });
 
 const dataToParse = useForm({
@@ -338,38 +384,43 @@ const parseDataBeta = (data) => {
         cantidad = cantidad.replace(/,/g, "");
     }
     // let value = "10,000.00".replace(/,/g, '');
-    let [comision, c_currency] =
-        obj.Comision.match(/([\d.,]+)\s(.+)/).slice(1);
+    let [comision, c_currency] = obj.Comision.match(/([\d.,]+)\s(.+)/).slice(1);
 
     if (hasComma(comision)) {
         comision = comision.replace(/,/g, "");
     }
 
     //get municipio
-    let [provincia, municipio] = obj.Localidad.split(" / ");
-    console.log(municipio);
+    // let [provincia, municipio] = obj.Localidad.split(" / ");
+    console.log(obj.Localidad);
 
-    let monedas = props.monedas
+    let monedas = props.monedas;
 
-    for(let index = 0; index < monedas.length; index++)
-    {
-        if(monedas[index].nombre === v_currency)
-        {
+    for (let index = 0; index < monedas.length; index++) {
+        if (monedas[index].nombre === v_currency) {
             form.moneda_id = monedas[index].id;
+        }
+    }
+
+    for (let index = 0; index < monedas.length; index++) {
+        if (monedas[index].nombre === c_currency) {
+            form.moneda_comision = monedas[index].id;
         }
     }
 
     form.codigo = obj.Factura;
     form.nombre_cliente = obj.Nombre;
     form.telefono = obj.Telefono;
-    form.direccion = obj.Direccion + " " + obj.PuntoDeReferencia;
+    form.localidad = obj.Localidad;
+    form.direccion = obj.Direccion;
+    form.referencia = obj.PuntoDeReferencia;
     form.cantidad = cantidad;
     form.comision = comision;
-}
+};
 
 const submit = () => {
     // console.log('Acabo de envier el formulario!!')
-    // console.log(form)
+    console.log(form)
     form.post(route("remesas.store"));
     form.reset();
     close();
