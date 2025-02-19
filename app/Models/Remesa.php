@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\RemesaEstados;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,10 +11,9 @@ class Remesa extends Model
 {
     use HasFactory;
 
-    public function municipio() : BelongsTo
-    {
-        return $this->belongsTo(Municipio::class);
-    }
+    protected $cast = [
+        'estado' => RemesaEstados::class
+    ];
 
     public function mensajero() : BelongsTo
     {
@@ -23,5 +23,10 @@ class Remesa extends Model
     public function moneda() : BelongsTo
     {
         return $this->belongsTo(Moneda::class);
-    }    
+    }
+
+    public function monedaComision() : BelongsTo
+    {
+        return $this->belongsTo(Moneda::class, 'comicion_moneda_id');
+    }
 }

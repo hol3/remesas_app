@@ -30,6 +30,9 @@ return new class extends Migration
             ],
             [
                 'currency' => 'EUR',
+            ],
+            [
+                'currency' => 'TARJETA'
             ]
         );
 

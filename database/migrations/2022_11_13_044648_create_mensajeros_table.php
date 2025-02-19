@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('telefono');
-            $table->decimal('comision', 8, 2)->nullable();
+            $table->decimal('comision', 10, 2)->nullable();
+            $table->boolean('tiene_efectivo')->default(false);
             $table->timestamps();
         });
     }

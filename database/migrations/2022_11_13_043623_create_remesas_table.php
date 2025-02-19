@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Mensajero;
+use App\Models\Moneda;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,13 +20,15 @@ return new class extends Migration
             $table->string('codigo')->nullable(true);
             $table->string('nombre_cliente');
             $table->string('telefono');
-            $table->string('direccion');
-            $table->foreignId('municipio_id');
-            $table->decimal('cantidad', 8, 2)->default(0);
-            $table->foreignId('moneda_id');
-            $table->decimal('comision', 8, 2)->default(0);
-            $table->boolean('estado')->default(false);
-            $table->foreignId('mensajero_id')->nullable(true);
+            $table->decimal('cantidad', 10, 2)->default(0);
+            $table->foreignIdFor(Moneda::class);
+            $table->decimal('comision', 10, 2)->default(0);
+            $table->foreignId('comicion_moneda_id');
+            $table->string('localidad');
+            $table->text('direccion');
+            $table->text('referencia')->nullable(true);
+            $table->string('estado')->default('pendiente');
+            $table->foreignIdFor(Mensajero::class);
             $table->timestamps();
         });
     }
