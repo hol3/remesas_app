@@ -20,6 +20,7 @@
         "vue": "^3.5.8"
     },
     "dependencies": {
+        "@heroicons/vue": "^2.2.0",
         "@tabler/icons-vue": "^3.17.0",
         "@tailwindcss/line-clamp": "^0.4.4",
         "chart.js": "^4.4.4",

@@ -33,7 +33,7 @@ Route::get('/', function () {
 Route::put('/remesas/close', [RemesaController::class, 'closeDelivery'])->middleware(['auth'])->name('remesas.close');
 
 Route::resource('/remesas', RemesaController::class)
-    ->only(['index','store', 'edit', 'update','destroy'])
+    ->only(['index','store', 'edit', 'update','destroy', 'show'])
     ->middleware(['auth']);
 
 Route::resource('/mensajeros', MensajeroController::class)

@@ -83,10 +83,10 @@ class MensajeroController extends Controller
     {
         //
         $item = $mensajero->remesas;
-        $pagination = $mensajero->remesas()->orderBy('estado')->orderBy('created_at', 'desc')->paginate(20);
-        $pendientes = $mensajero->remesas()->where('estado', 0)->count();
+        $pagination = $mensajero->remesas()->orderBy('created_at', 'desc')->paginate(20);
+        $pendientes = $mensajero->remesas()->where('estado', 'pendiente')->count();
         // $remesasPendientes = $mensajero->remesas()->where('estado', 0)->get();
-        $entregadasHoy = $mensajero->remesas()->where('estado', 1)->whereDate('updated_at', Carbon::today())->count();
+        $entregadasHoy = $mensajero->remesas()->where('estado', 'completado')->whereDate('updated_at', Carbon::today())->count();
         // $entregasHoy = $mensajero->remesas()->where('estado', 1)->whereDate('updated_at', Carbon::today())->get();
 
         $remesas = array();
@@ -100,8 +100,8 @@ class MensajeroController extends Controller
             $cobro = $entregadasHoy * $mensajero->comision;
             $cobroPendiente = $pendientes * $mensajero->comision;
         }else{
-            $cobroPendiente = $mensajero->remesas()->where('estado', 0)->sum("comision");
-            $cobro = $mensajero->remesas()->where('estado', 1)->whereDate('updated_at', Carbon::today())->sum("comision");
+            $cobroPendiente = $mensajero->remesas()->where('estado', 'pendiente')->sum("comision");
+            $cobro = $mensajero->remesas()->where('estado', 'completado')->whereDate('updated_at', Carbon::today())->sum("comision");
         }
 
         foreach ($pagination as $item) {
@@ -111,8 +111,7 @@ class MensajeroController extends Controller
                 'nombre_cliente' => $item->nombre_cliente,
                 'telefono' => $item->telefono,
                 'direccion' => $item->direccion,
-                'provincia' => $item->municipio->provincia->nombre,
-                'municipio' => $item->municipio->nombre,
+                'localidad' => $item->localidad,
                 'cantidad' => $item->cantidad,
                 'moneda' => $item->moneda->nombre,
                 'comision' => $this->comision($mensajero->comision, $item->comision),
@@ -289,20 +288,20 @@ class MensajeroController extends Controller
         if($mensajero->comision > 0){
             if($moneda->nombre === "CUP")
             {
-                $total = Remesa::where('moneda_id', $moneda->id)->where('mensajero_id', $mensajero->id)->where('estado', 0)->sum('cantidad') + $mensajero->comision * Remesa::where('mensajero_id', $mensajero->id)->where('estado', 0)->count();
+                $total = Remesa::where('moneda_id', $moneda->id)->where('mensajero_id', $mensajero->id)->where('estado', 'pendiente')->sum('cantidad') + $mensajero->comision * Remesa::where('mensajero_id', $mensajero->id)->where('estado', 'pendiente')->count();
             }
             else
             {
-                $total = Remesa::where('moneda_id', $moneda->id)->where('mensajero_id', $mensajero->id)->where('estado', 0)->sum('cantidad');
+                $total = Remesa::where('moneda_id', $moneda->id)->where('mensajero_id', $mensajero->id)->where('estado', 'pendiente')->sum('cantidad');
             }
         }else{
             if($moneda->nombre === "CUP")
             {
-                $total = Remesa::where('moneda_id', $moneda->id)->where('mensajero_id', $mensajero->id)->where('estado', 0)->sum('cantidad') + Remesa::where('mensajero_id', $mensajero->id)->where('estado', 0)->sum('comision');
+                $total = Remesa::where('moneda_id', $moneda->id)->where('mensajero_id', $mensajero->id)->where('estado', 'pendiente')->sum('cantidad') + Remesa::where('mensajero_id', $mensajero->id)->where('estado', 'pendiente')->sum('comision');
             }
             else
             {
-                $total = Remesa::where('moneda_id', $moneda->id)->where('mensajero_id', $mensajero->id)->where('estado', 0)->sum('cantidad');
+                $total = Remesa::where('moneda_id', $moneda->id)->where('mensajero_id', $mensajero->id)->where('estado', 'pendiente')->sum('cantidad');
             }
         }
         return $total;

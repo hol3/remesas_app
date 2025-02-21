@@ -21,9 +21,9 @@ class DashboardController extends Controller
         //Total
         $total = Remesa::all()->count();
         //Total entregadas
-        $totalEntregadas = Remesa::where('estado', 1)->count();
+        $totalEntregadas = Remesa::where('estado', 'completado')->count();
         //Total pendientes
-        $totalPendientes = Remesa::where('estado', 0)->count();
+        $totalPendientes = Remesa::where('estado', 'pendiente')->count();
         //Remesas sin entregar
         $remesas = Remesa::where('estado', 'pendiente')->latest('id')->get();
         // $remesasSinEntregar = Remesa::where('estado', '=', 0);

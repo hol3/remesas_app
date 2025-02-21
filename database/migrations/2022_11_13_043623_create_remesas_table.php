@@ -23,7 +23,7 @@ return new class extends Migration
             $table->decimal('cantidad', 10, 2)->default(0);
             $table->foreignIdFor(Moneda::class);
             $table->decimal('comision', 10, 2)->default(0);
-            $table->foreignId('comicion_moneda_id');
+            $table->foreignId('comision_moneda_id');
             $table->string('localidad');
             $table->text('direccion');
             $table->text('referencia')->nullable(true);

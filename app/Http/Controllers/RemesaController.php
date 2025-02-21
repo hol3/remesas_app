@@ -129,7 +129,7 @@ class RemesaController extends Controller
         $remesa->cantidad = $request->cantidad;
         $remesa->moneda_id = $request->moneda_id;
         $remesa->comision = $request->comision;
-        $remesa->comicion_moneda_id = $request->moneda_comision;
+        $remesa->comision_moneda_id = $request->moneda_comision;
         $remesa->mensajero_id = $request->mensajero_id;
         $remesa->referencia = $request->referencia;
 
@@ -147,8 +147,16 @@ class RemesaController extends Controller
     public function show($id)
     {
         //
+
         $remesa = Remesa::find($id);
-        dump($remesa);
+        // dump($remesa);
+        return Inertia::render('Remesas/Show', [
+            'factura' => [
+                'data' => $remesa,
+                'mensajero' => $remesa->mensajero->nombre,
+                'moneda' => $remesa->moneda->nombre,
+            ]
+        ]);
     }
 
     /**

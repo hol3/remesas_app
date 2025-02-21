@@ -8,7 +8,7 @@
         >
             <div class="flex items-center justify-between p-2">
                 <h3 class="mr-6 text-2xl">Agregar factura</h3>
-                <IconX @click="close" />
+                <XMarkIcon class="size-6" @click="close" />
             </div>
             <div class="overflow-auto h-[90%]">
                 <div
@@ -213,7 +213,7 @@
 </template>
 <script setup>
 import { useForm, Link } from "@inertiajs/inertia-vue3";
-import { IconX } from "@tabler/icons-vue";
+import { XMarkIcon } from "@heroicons/vue/24/outline";
 import InputLabel from "./InputLabel.vue";
 import TextInput from "./TextInput.vue";
 import InputError from "./InputError.vue";

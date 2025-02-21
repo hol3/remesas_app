@@ -27,6 +27,6 @@ class Remesa extends Model
 
     public function monedaComision() : BelongsTo
     {
-        return $this->belongsTo(Moneda::class, 'comicion_moneda_id');
+        return $this->belongsTo(Moneda::class, 'comision_moneda_id');
     }
 }
