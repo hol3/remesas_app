@@ -17,8 +17,10 @@
                 <tr v-for="remesa in props.remesas.data" :key="remesa.id"
                     class="border-b dark:border-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800">
                     <td :class="(estado =
-                        remesa.estado == 1
-                            ? 'px-6 py-4 border-l-4 border-green-300 table-cell'
+                        (remesa.estado == 'completado')
+                            ? 'px-6 py-4 border-l-4 border-green-300 table-cell' :
+                            (remesa.estado == 'enviado')
+                            ? 'px-6 py-4 border-l-4 border-orange-300 table-cell'
                             : 'px-6 py-4 table-cell')
                         ">
                         <span class="font-bold uppercase">{{ remesa.codigo }}</span>
@@ -37,10 +39,9 @@
                     </td>
                     <td class="px-6 py-4 text-center sm:table-cell">
                         <div class="flex justify-center gap-1">
-                            <Link :href="route('remesas.show', remesa.id)"><EyeIcon class="size-6" /></Link>
-                            <Link><DocumentDuplicateIcon class="size-6" /></Link>
-                            <Link><PencilSquareIcon class="size-6" /></Link>
-                            <button @click="borrarFactura(remesa.id)"><TrashIcon class="size-6" /></button>
+                            <Link :href="route('remesas.show', remesa.id)"><EyeIcon class="size-6 hover:text-blue-500" /></Link>
+                            <button v-if="remesa.estado !== 'completado'" @click="copyFunc(remesa)"><DocumentDuplicateIcon class="size-6 hover:text-blue-500" /></button>
+                            <button v-if="remesa.estado == 'pendiente' || remesa.estado == 'enviado'" @click="completarFactura(remesa)"><CheckIcon class="size-6 hover:text-blue-500" /></button>
                         </div>
                     </td>
                 </tr>
@@ -51,12 +52,12 @@
     <!-- <ModalRemesa @close="showModal" :modal-active="modalActive" :remesa="remesa" /> -->
 </template>
 <script setup>
-import { ref } from "vue";
+// import { ref } from "vue";
 import dayjs from "dayjs";
 import { Link, useForm } from "@inertiajs/inertia-vue3";
 // import ModalRemesa from "./ModalRemesa.vue";
 import Pagination from "./Pagination.vue";
-import { DocumentDuplicateIcon, EyeIcon, PencilSquareIcon, TrashIcon } from "@heroicons/vue/24/outline";
+import { CheckIcon, DocumentDuplicateIcon, EyeIcon } from "@heroicons/vue/24/outline";
 
 const props = defineProps({
     remesas: {
@@ -69,16 +70,38 @@ const props = defineProps({
     },
 });
 
+const copyFunc = (data) => {
+    let fecha = dayjs(data.fecha).format('DD/MM/YYYY')
+    let text = 'Factura: ' + data.codigo + '\nFecha: ' + fecha +'\nCliente: ' + data.nombre_cliente +
+                '\nTeléfono: ' + data.telefono + '\nCantidad: $' + data.cantidad + ' ' + data.moneda.nombre +
+                '\nLocalidad: ' + data.localidad + '\nDirección: ' + data.direccion + '\nReferancia: ' + data.referencia;
+    navigator.clipboard.writeText(text).then(function (){
+        console.log('Async: Copying to clipboard was successful!');
+        factura.id = data.id;
+        factura.put(route('remesas.enviar', data.id), { preserveScroll: true});
+    }, function(err){
+        console.error('Async: Could not copy text: ', err);
+    });
+}
+
 const factura = useForm({
     id: ''
-})
+});
 
-const borrarFactura = (id) => {
+const completarFactura = (remesa) => {
+    if(confirm("Está seguro de cerrar la factura?"))
+    {
+        factura.id = remesa.id;
+        factura.put(route('remesas.close', remesa), {preserveScroll: true});
+    }
+}
+
+const borrarFactura = (remesa) => {
     if(confirm("Está seguro de eliminar la factura?"))
     {
-        console.log(id);
-        factura.id = id
-        factura.delete(route('remesas.destroy', id));
+        // console.log(remesa);
+        factura.id = remesa.id;
+        factura.delete(route('remesas.destroy', remesa));
     }
 }
 

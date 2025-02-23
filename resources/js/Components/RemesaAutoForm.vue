@@ -73,7 +73,7 @@
                         />
                         <InputError
                             class="mt-2"
-                            :message="form.errors.direccion"
+                            :message="form.errors.telefono"
                         />
                     </div>
                     <div class="mt-2">

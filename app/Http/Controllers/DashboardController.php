@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contabilidad;
 use App\Models\EfectivoEnCaja;
 use App\Models\Moneda;
 use App\Models\Remesa;
@@ -23,9 +24,9 @@ class DashboardController extends Controller
         //Total entregadas
         $totalEntregadas = Remesa::where('estado', 'completado')->count();
         //Total pendientes
-        $totalPendientes = Remesa::where('estado', 'pendiente')->count();
+        $totalPendientes = Remesa::whereNot('estado', 'completado')->count();
         //Remesas sin entregar
-        $remesas = Remesa::where('estado', 'pendiente')->latest('id')->get();
+        $remesas = Remesa::whereNot('estado', 'completado')->latest('id')->get();
         // $remesasSinEntregar = Remesa::where('estado', '=', 0);
 
         $remesasSixMonth = Remesa::where("created_at", ">", Carbon::now()->subWeek()->format("Y-m-d H:i:s"))->get();
@@ -75,7 +76,7 @@ class DashboardController extends Controller
             array_push($totalEnCaja, [
                 'id' => $item->id,
                 'nombre' => $item->nombre,
-                'cantidad' => $this->calcularEfectivo($item),
+                'cantidad' => Contabilidad::where('moneda_id', $item->id)->sum('cantidad'),
             ]);
             array_push($efectivoPendiente, [
                 'id' => $item->id,
@@ -111,18 +112,19 @@ class DashboardController extends Controller
     {
         if($moneda->nombre === "CUP")
         {
-            $total = EfectivoEnCaja::where('moneda_id', $moneda->id)->sum('cantidad') - Remesa::where('moneda_id', $moneda->id)->sum('cantidad') - Remesa::sum('comision');
+            $total = Contabilidad::where('moneda_id', $moneda->id)->sum('cantidad') - Remesa::where('moneda_id', $moneda->id)->sum('cantidad') - Remesa::sum('comision');
         }
         else
         {
-            $total = EfectivoEnCaja::where('moneda_id', $moneda->id)->sum('cantidad') - Remesa::where('moneda_id', $moneda->id)->sum('cantidad');
+            $total = Contabilidad::where('moneda_id', $moneda->id)->sum('cantidad') - Remesa::where('moneda_id', $moneda->id)->sum('cantidad');
         }
         return $total;
     }
 
     private function efectivoPendiente($moneda)
     {
-        $total = Remesa::where('moneda_id', $moneda->id)->where('estado', 0)->sum('cantidad');
-        return $total;
+        $total = Remesa::where('moneda_id', $moneda->id)->whereNot('estado', 'completado')->sum('cantidad');
+        $total1 = Remesa::where('comision_moneda_id', $moneda->id)->whereNot('estado', 'completado')->sum('comision');
+        return $total + $total1;
     }
 }

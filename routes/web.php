@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\ContabilidadController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EfectivoEnCajaController;
-use App\Http\Controllers\EfectivoMensajeroController;
 use App\Http\Controllers\MensajeroController;
 use App\Http\Controllers\MonedaController;
 use App\Http\Controllers\RemesaController;
@@ -31,6 +31,7 @@ Route::get('/', function () {
 });
 
 Route::put('/remesas/close', [RemesaController::class, 'closeDelivery'])->middleware(['auth'])->name('remesas.close');
+Route::put('/remesas/enviar', [RemesaController::class, 'cambiarEstado'])->middleware(['auth'])->name('remesas.enviar');
 
 Route::resource('/remesas', RemesaController::class)
     ->only(['index','store', 'edit', 'update','destroy', 'show'])
@@ -40,8 +41,12 @@ Route::resource('/mensajeros', MensajeroController::class)
     ->only(['index','store', 'edit', 'update','destroy', 'show'])
     ->middleware(['auth']);
 
-Route::resource('/dinero', EfectivoEnCajaController::class)
+Route::resource('/efectivo', EfectivoEnCajaController::class)
     ->only(['index','store','update','destroy'])
+    ->middleware(['auth']);
+
+Route::resource('/contabilidad', ContabilidadController::class)
+    ->only(['index', 'store'])
     ->middleware(['auth']);
 
 Route::resource('/moneda', MonedaController::class)

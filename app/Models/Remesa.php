@@ -12,6 +12,10 @@ class Remesa extends Model
     use HasFactory;
 
     protected $cast = [
+
+        'moneda_id' => Moneda::class,
+        'comision_moneda_id' => Moneda::class,
+        'mensajero_id' => Mensajero::class,
         'estado' => RemesaEstados::class
     ];
 

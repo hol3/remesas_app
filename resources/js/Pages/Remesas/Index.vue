@@ -47,8 +47,10 @@ const props = defineProps({
 })
 
 
-const formActive = ref(false)
-const autoFormActive = ref(false)
+console.log(props.pagination);
+
+const formActive = ref(false);
+const autoFormActive = ref(false);
 
 const form = useForm({
     codigo: '',

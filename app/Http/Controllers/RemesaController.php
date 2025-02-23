@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\RemesaEstados;
+use App\Models\Contabilidad;
 use App\Models\EfectivoEnCaja;
 use App\Models\Mensajero;
 use App\Models\Moneda;
@@ -24,29 +25,13 @@ class RemesaController extends Controller
         $monedas = Moneda::all();
         $mensajeros = Mensajero::all();
 
-        $data = [];
-
         $result = Remesa::orderBy('created_at', 'desc')->paginate(20);
 
-        $remesas = array();
 
         foreach ($result as $item) {
-            array_push($remesas, [
-                'id' => $item->id,
-                'codigo' => $item->codigo,
-                'nombre_cliente' => $item->nombre_cliente,
-                'telefono' => $item->telefono,
-                'localidad' => $item->localidad,
-                'direccion' => $item->direccion,
-                'cantidad' => $item->cantidad,
-                'moneda' => $item->moneda->nombre,
-                'comision' => $item->comision,
-                'moneda_comision' => $item->comision,
-                'mensajero' => $item->mensajero->nombre,
-                'estado' => $item->estado,
-                'created_at' => $item->created_at,
-                'updated_at' => $item->updated_at
-            ]);
+            $item->moneda->nombre;
+            $item->mensajero;
+            $item->monedaComision;
         }
 
         // dump($remesas);
@@ -54,7 +39,6 @@ class RemesaController extends Controller
         return Inertia::render('Remesas/Index', [
             // 'remesas' => $this->get(),
             'pagination' => $result,
-            'provincias' => $data,
             'monedas' => $monedas,
             'mensajeros' => $mensajeros,
 
@@ -132,8 +116,10 @@ class RemesaController extends Controller
         $remesa->comision_moneda_id = $request->moneda_comision;
         $remesa->mensajero_id = $request->mensajero_id;
         $remesa->referencia = $request->referencia;
-
         $remesa->save();
+
+        $salidaDeCaja = new ContabilidadController();
+        $salidaDeCaja->salida($remesa);
 
         return redirect(route('remesas.index'));
     }
@@ -169,11 +155,13 @@ class RemesaController extends Controller
     {
         $monedas = Moneda::all();
         $mensajeros = Mensajero::all();
+        $estados = RemesaEstados::cases();
 
         //
         return Inertia::render('Remesas/Edit', [
             'item' => $remesa,
             'monedas' => $monedas,
+            'estados' => $estados,
             'mensajeros' => $mensajeros,
         ]);
     }
@@ -196,11 +184,19 @@ class RemesaController extends Controller
         $remesa->moneda_id = $request->moneda_id;
         $remesa->comision = $request->comision;
         $remesa->mensajero_id = $request->mensajero_id;
+        $remesa->estado = $request->estado;
 
         $remesa->save();
 
         // return redirect()->route('remesas.index'); //->with('message', 'Book Updated Successfully');
         return redirect()->back();
+    }
+
+    public function cambiarEstado(Request $request)
+    {
+        $remesa = Remesa::find($request->id);
+        $remesa->estado = RemesaEstados::Enviado;
+        $remesa->save();
     }
 
     public function closeDelivery(Request $request)
@@ -218,10 +214,16 @@ class RemesaController extends Controller
      * @param  \App\Models\Remesa  $remesa
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Remesa $remesa)
     {
-        //
-        $remesa = new Remesa();
-        $remesa->destroy($id);
+
+        $eliminarDeContabilidad = Contabilidad::where("nota", "like", "%".$remesa->codigo."%")->get();
+
+        foreach($eliminarDeContabilidad as $item)
+        {
+            $item->destroy($item->id);
+        }
+
+        $remesa->destroy($remesa->id);
     }
 }

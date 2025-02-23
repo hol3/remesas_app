@@ -53,7 +53,10 @@ console.log(props.factura);
                     <p class="mt-2 uppercase text-slate-500 dark:text-gray-100">
                         <span class="font-semibold text-slate-800 dark:text-gray-300">Estado: </span>{{ factura.data.estado }}
                     </p>
-                    <div class="flex items-center mt-4"></div>
+                    <div class="flex items-center justify-end gap-2 mt-4">
+                        <button class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-blue-800 border border-transparent rounded-md hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray">Editar</button>
+                        <button class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-red-800 border border-transparent rounded-md hover:bg-red-700 active:bg-red-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray">Eliminar</button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -21,7 +21,7 @@ const showingNavigationDropdown = ref(false);
                             <!-- Logo -->
                             <div class="flex items-center shrink-0">
                                 <Link :href="route('dashboard')">
-                                    <ApplicationLogo class="block w-auto h-9" />
+                                    <ApplicationLogo class="block w-auto h-9 dark:text-white" />
                                 </Link>
                             </div>
 
@@ -58,7 +58,7 @@ const showingNavigationDropdown = ref(false);
                                         </template>
                                     </Dropdown>
                                 </div>
-                                <NavLink :href="route('dinero.index')" :active="route().current('dinero.index')">
+                                <NavLink :href="route('contabilidad.index')" :active="route().current('contabilidad.index')">
                                     Dinero
                                 </NavLink>
                                 <NavLink :href="route('moneda.index')" :active="route().current('moneda.index')">
@@ -116,11 +116,11 @@ const showingNavigationDropdown = ref(false);
                         <ResponsiveNavLink :href="route('mensajeros.index')" :active="route().current('mensajeros.index')">
                             Mensajeros
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('dinero.index')" :active="route().current('dinero.index')">
+                        <ResponsiveNavLink :href="route('contabilidad.index')" :active="route().current('contabilidad.index')">
                             Dinero
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('moneda.index')" :active="route().current('moneda.index')">
-                            Dinero
+                            Monedas
                         </ResponsiveNavLink>
                     </div>
 
