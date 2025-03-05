@@ -225,5 +225,7 @@ class RemesaController extends Controller
         }
 
         $remesa->destroy($remesa->id);
+
+        return redirect()->route('remesas.index');
     }
 }

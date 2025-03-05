@@ -1,10 +1,26 @@
 <script setup>
-import { Link } from "@inertiajs/inertia-vue3";
+import { Link, useForm } from "@inertiajs/inertia-vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
 const props = defineProps({
     factura: Object,
 });
+
+const facturaForm = useForm({
+    id: ''
+});
+
+const edit = (remesa) => {
+    route('remesas.edit', remesa.id);
+}
+
+const deleteFactura = (remesa) => {
+    if(confirm("Está seguro de eliminar la factura?"))
+    {
+        facturaForm.id = remesa.id;
+        facturaForm.delete(route('remesas.destroy', remesa.id))
+    }
+}
 
 console.log(props.factura);
 </script>
@@ -54,8 +70,8 @@ console.log(props.factura);
                         <span class="font-semibold text-slate-800 dark:text-gray-300">Estado: </span>{{ factura.data.estado }}
                     </p>
                     <div class="flex items-center justify-end gap-2 mt-4">
-                        <button class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-blue-800 border border-transparent rounded-md hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray">Editar</button>
-                        <button class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-red-800 border border-transparent rounded-md hover:bg-red-700 active:bg-red-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray">Eliminar</button>
+                        <Link :href="route('remesas.edit', factura.data.id)" class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-blue-800 border border-transparent rounded-md hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray">Editar</Link>
+                        <button @click="deleteFactura(factura.data)" class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-red-800 border border-transparent rounded-md hover:bg-red-700 active:bg-red-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray">Eliminar</button>
                     </div>
                 </div>
             </div>

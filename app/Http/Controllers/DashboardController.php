@@ -9,6 +9,7 @@ use App\Models\Remesa;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Carbon\Carbon;
+use SebastianBergmann\CodeCoverage\Report\Xml\Totals;
 
 class DashboardController extends Controller
 {
@@ -31,26 +32,26 @@ class DashboardController extends Controller
 
         $remesasSixMonth = Remesa::where("created_at", ">", Carbon::now()->subWeek()->format("Y-m-d H:i:s"))->get();
 
-        $data = array();
+        // $data = array();
 
-        foreach ($remesas as $item) {
-            array_push($data, [
-                'id' => $item->id,
-                'codigo' => $item->codigo,
-                'nombre_cliente' => $item->nombre_cliente,
-                'telefono' => $item->telefono,
-                'localidad' => $item->localidad,
-                'direccion' => $item->direccion,
-                'cantidad' => $item->cantidad,
-                'moneda' => $item->moneda->nombre,
-                'comision' => $item->comision,
-                'moneda_comision' => $item->comision,
-                'mensajero' => $item->mensajero->nombre,
-                'estado' => $item->estado,
-                'created_at' => $item->created_at,
-                'updated_at' => $item->updated_at
-            ]);
-        }
+        // foreach ($remesas as $item) {
+        //     array_push($data, [
+        //         'id' => $item->id,
+        //         'codigo' => $item->codigo,
+        //         'nombre_cliente' => $item->nombre_cliente,
+        //         'telefono' => $item->telefono,
+        //         'localidad' => $item->localidad,
+        //         'direccion' => $item->direccion,
+        //         'cantidad' => $item->cantidad,
+        //         'moneda' => $item->moneda->nombre,
+        //         'comision' => $item->comision,
+        //         'moneda_comision' => $item->comision,
+        //         'mensajero' => $item->mensajero->nombre,
+        //         'estado' => $item->estado,
+        //         'created_at' => $item->created_at,
+        //         'updated_at' => $item->updated_at
+        //     ]);
+        // }
 
         /**
          * FIN REMESAS
@@ -102,7 +103,7 @@ class DashboardController extends Controller
             'entregadas' => $totalEntregadas,
             'pendientes' => $totalPendientes,
             'totalencaja' => $totalEnCaja,
-            'remesas' => $data,
+            'remesas' => $remesas,
             // 'pagination' => $remesas,
             'dineroPendiente' => $efectivoPendiente,
         ]);
@@ -125,6 +126,7 @@ class DashboardController extends Controller
     {
         $total = Remesa::where('moneda_id', $moneda->id)->whereNot('estado', 'completado')->sum('cantidad');
         $total1 = Remesa::where('comision_moneda_id', $moneda->id)->whereNot('estado', 'completado')->sum('comision');
+        // $result = Contabilidad::where('moneda_id', $moneda->id)->where('concepto', 'salida')->sum('cantidad');
         return $total + $total1;
     }
 }

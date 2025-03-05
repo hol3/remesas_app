@@ -14,7 +14,7 @@ class ContabilidadController extends Controller
     //
     public function index()
     {
-        $dinero = Contabilidad::latest('id')->paginate(100);
+        $dinero = Contabilidad::latest('id')->paginate(20);
 
         foreach($dinero as $item)
         {

@@ -34,8 +34,7 @@ class MensajeroController extends Controller
                 'comision' => $item->comision,
                 'tiene_efectivo' => $item->tiene_efectivo,
                 'totalEntregas' => $item->remesas->count(),
-                'totalPendientes' => $item->remesas->where('estado', 0)->count(),
-                'entregasPendientes' => $item->remesas->where('estado', 0)
+                'totalPendientes' => Remesa::where('mensajero_id', $item->id)->whereNot('estado', 'completado')->count(),
             ]);
         }
 
@@ -83,7 +82,7 @@ class MensajeroController extends Controller
     {
         //
         $item = $mensajero->remesas;
-        $pagination = $mensajero->remesas()->orderBy('created_at', 'desc')->paginate(20);
+        $pagination = $mensajero->remesas()->whereNot('estado', 'completado')->orderBy('created_at', 'desc')->paginate(40);
         $pendientes = $mensajero->remesas()->whereNot('estado', 'completado')->count();
         // $remesasPendientes = $mensajero->remesas()->where('estado', 0)->get();
         $entregadasHoy = $mensajero->remesas()->where('estado', 'completado')->whereDate('updated_at', Carbon::today())->count();

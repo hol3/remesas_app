@@ -1,6 +1,7 @@
 <script setup>
 import ContabForm from '@/Components/ContabForm.vue';
 import ModalDialog from '@/Components/ModalDialog.vue';
+import Pagination from '@/Components/Pagination.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import dayjs from 'dayjs';
@@ -69,6 +70,7 @@ const showDialog = () => {
                             </tr>
                         </tbody>
                     </table>
+                    <Pagination :data="efectivo" />
                 </div>
             </div>
         </div>
