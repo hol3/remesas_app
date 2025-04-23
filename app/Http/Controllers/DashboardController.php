@@ -77,7 +77,7 @@ class DashboardController extends Controller
             array_push($totalEnCaja, [
                 'id' => $item->id,
                 'nombre' => $item->nombre,
-                'cantidad' => Contabilidad::where('moneda_id', $item->id)->sum('cantidad'),
+                'cantidad' => $this->calcularEfectivo($item),
             ]);
             array_push($efectivoPendiente, [
                 'id' => $item->id,
@@ -113,11 +113,11 @@ class DashboardController extends Controller
     {
         if($moneda->nombre === "CUP")
         {
-            $total = Contabilidad::where('moneda_id', $moneda->id)->sum('cantidad') - Remesa::where('moneda_id', $moneda->id)->sum('cantidad') - Remesa::sum('comision');
+            $total = EfectivoEnCaja::where('moneda_id', $moneda->id)->sum('cantidad') - Remesa::where('moneda_id', $moneda->id)->sum('cantidad') - Remesa::sum('comision');
         }
         else
         {
-            $total = Contabilidad::where('moneda_id', $moneda->id)->sum('cantidad') - Remesa::where('moneda_id', $moneda->id)->sum('cantidad');
+            $total = EfectivoEnCaja::where('moneda_id', $moneda->id)->sum('cantidad') - Remesa::where('moneda_id', $moneda->id)->sum('cantidad');
         }
         return $total;
     }

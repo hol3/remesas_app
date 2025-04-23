@@ -41,7 +41,7 @@ Route::resource('/mensajeros', MensajeroController::class)
     ->only(['index','store', 'edit', 'update','destroy', 'show'])
     ->middleware(['auth']);
 
-Route::resource('/efectivo', EfectivoEnCajaController::class)
+Route::resource('/dinero', EfectivoEnCajaController::class)
     ->only(['index','store','update','destroy'])
     ->middleware(['auth']);
 

@@ -18,7 +18,7 @@ class EfectivoEnCajaController extends Controller
     {
         $result = EfectivoEnCaja::latest('id')->paginate(100);
         $dinero = [];
-        
+
         foreach($result as $item)
         {
             array_push($dinero, [

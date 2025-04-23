@@ -58,7 +58,7 @@ const showingNavigationDropdown = ref(false);
                                         </template>
                                     </Dropdown>
                                 </div>
-                                <NavLink :href="route('contabilidad.index')" :active="route().current('contabilidad.index')">
+                                <NavLink :href="route('dinero.index')" :active="route().current('dinero.index')">
                                     Dinero
                                 </NavLink>
                                 <NavLink :href="route('moneda.index')" :active="route().current('moneda.index')">
@@ -116,7 +116,7 @@ const showingNavigationDropdown = ref(false);
                         <ResponsiveNavLink :href="route('mensajeros.index')" :active="route().current('mensajeros.index')">
                             Mensajeros
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('contabilidad.index')" :active="route().current('contabilidad.index')">
+                        <ResponsiveNavLink :href="route('dinero.index')" :active="route().current('dinero.index')">
                             Dinero
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('moneda.index')" :active="route().current('moneda.index')">
