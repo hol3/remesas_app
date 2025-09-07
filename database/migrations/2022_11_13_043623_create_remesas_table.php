@@ -17,7 +17,7 @@ return new class extends Migration
     {
         Schema::create('remesas', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo')->nullable(true);
+            $table->string('codigo')->unique();
             $table->string('nombre_cliente');
             $table->string('telefono');
             $table->decimal('cantidad', 10, 2)->default(0);
