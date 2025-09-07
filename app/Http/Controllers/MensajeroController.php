@@ -25,8 +25,7 @@ class MensajeroController extends Controller
 
         $mensajeros = Mensajero::all();
 
-        foreach ($mensajeros as $item)
-        {
+        foreach ($mensajeros as $item) {
             array_push($data, [
                 'id' => $item->id,
                 'nombre' => $item->nombre,
@@ -69,7 +68,7 @@ class MensajeroController extends Controller
         $mensajero->nombre = $request->nombre;
         $mensajero->telefono = $request->telefono;
         $mensajero->comision = $request->comision;
-        $mensajero->tiene_efectivo = $request->tiene_efectivo;
+        $mensajero->tiene_efectivo = ($request->tiene_efectivo === null) ? false : $request->tiene_efectivo;
         $mensajero->save();
     }
 
@@ -94,10 +93,10 @@ class MensajeroController extends Controller
 
         // dd($remesasPendientes);
 
-        if($mensajero->comision > 0){
+        if ($mensajero->comision > 0) {
             $cobro = $mensajero->remesas()->where('estado', 1)->whereDate('updated_at', Carbon::today())->count() * $mensajero->comision;
-            $cobroPendiente = $pendientes * $mensajero->comision;            
-        }else{
+            $cobroPendiente = $pendientes * $mensajero->comision;
+        } else {
             $cobroPendiente = $mensajero->remesas()->where('estado', 0)->sum('comision');
             $cobro = $mensajero->remesas()->where('estado', 1)->whereDate('updated_at', Carbon::today())->sum('comision');
         }
@@ -105,11 +104,9 @@ class MensajeroController extends Controller
         $efectivo = [];
         $ultimaAsignacion = [];
 
-        foreach (Moneda::all() as $item)
-        {
+        foreach (Moneda::all() as $item) {
             //calcular el efectivo en caja solo si el mensajero tiene efectivo asignado
-            if($mensajero->tiene_efectivo === 1)
-            {
+            if ($mensajero->tiene_efectivo === 1) {
                 array_push($efectivo, [
                     // $item->nombre => Remesa::where('moneda_id', $item->id)->where('mensajero_id' ,$mensajero->id)->sum('cantidad')
                     'id' => $item->id,
@@ -123,9 +120,7 @@ class MensajeroController extends Controller
                     'nombre' => $item->nombre,
                     'asignacion' => $this->ultimaAsignacion($mensajero->id, $item->id),
                 ]);
-            }
-            else
-            {
+            } else {
                 array_push($efectivo, [
                     // $item->nombre => Remesa::where('moneda_id', $item->id)->where('mensajero_id' ,$mensajero->id)->sum('cantidad')
                     'id' => $item->id,
@@ -133,9 +128,9 @@ class MensajeroController extends Controller
                     'cantidadPorEntregar' => $this->EfectivoXEntregar($item, $mensajero),
                     'cantidadEnCaja' => 'No tiene'
                 ]);
-            }          
+            }
         }
-        
+
         // dd($pagination);
 
         return Inertia::render('Mensajeros/Show', [
@@ -145,7 +140,7 @@ class MensajeroController extends Controller
             'cobroPendiente' => $cobroPendiente,
             'ultimaAsignacion' => $ultimaAsignacion,
             // 'pagination' => $pagination,
-            'cobroHoy' => $cobro,            
+            'cobroHoy' => $cobro,
             'efectivo' => $efectivo,
             'monedas' => Moneda::all()
         ]);
@@ -167,7 +162,7 @@ class MensajeroController extends Controller
                 'provincia' => $item->municipio->provincia->nombre,
                 'municipio' => $item->municipio->nombre,
                 'cantidad' => $item->cantidad,
-                'moneda' => $item->moneda->nombre,                
+                'moneda' => $item->moneda->nombre,
                 'comision' => $this->comision($mensajero->comision, $item->comision),
                 'mensajero' => $item->mensajero->nombre,
                 'estado' => $item->estado,
@@ -178,16 +173,13 @@ class MensajeroController extends Controller
 
         return response()->json($remesas);
     }
-    
+
     private function ultimaAsignacion($mensajero_id, $moneda_id)
     {
         $query = EfectivoMensajero::where('mensajero_id', $mensajero_id)->where('moneda_id', $moneda_id)->latest('created_at')->first();
-        if($query != null)
-        {
+        if ($query != null) {
             return $query;
-        }
-        else
-        {
+        } else {
             return 0;
         }
     }
@@ -195,10 +187,10 @@ class MensajeroController extends Controller
     private function CalcularComision($comision, $entregas)
     {
         $result = 0;
-        if($comision > 0){
+        if ($comision > 0) {
             $result = count($entregas) * $comision;
-        }else{
-            foreach($entregas as $entrega){
+        } else {
+            foreach ($entregas as $entrega) {
                 $result += $entrega->comision;
             }
         }
@@ -207,9 +199,9 @@ class MensajeroController extends Controller
 
     private function comision($x, $y)
     {
-        if($x > 0){
+        if ($x > 0) {
             return $x;
-        }else{
+        } else {
             return $y;
         }
     }
@@ -228,9 +220,9 @@ class MensajeroController extends Controller
         $efectivo->moneda_id = $request->moneda_id;
         $efectivo->mensajero_id = $request->mensajero_id;
         $efectivo->save();
-        
+
         // dump($efectivo);
-        
+
         return back();
     }
 
@@ -246,7 +238,6 @@ class MensajeroController extends Controller
         return Inertia::render('Mensajeros/Edit', [
             'mensajero' => $mensajero,
         ]);
-
     }
 
     /**
@@ -280,12 +271,9 @@ class MensajeroController extends Controller
 
     private function EfectivoEnCaja($moneda, $mensajero)
     {
-        if($moneda->nombre === "CUP")
-        {
+        if ($moneda->nombre === "CUP") {
             $total = EfectivoMensajero::where('moneda_id', $moneda->id)->where('mensajero_id', $mensajero->id)->sum('cantidad') - Remesa::where('moneda_id', $moneda->id)->where('mensajero_id', $mensajero->id)->sum('cantidad') - $mensajero->comision * Remesa::where('mensajero_id', $mensajero->id)->count();
-        }
-        else
-        {
+        } else {
             $total = EfectivoMensajero::where('moneda_id', $moneda->id)->where('mensajero_id', $mensajero->id)->sum('cantidad') - Remesa::where('moneda_id', $moneda->id)->where('mensajero_id', $mensajero->id)->sum('cantidad');
         }
         return $total;
@@ -293,22 +281,16 @@ class MensajeroController extends Controller
 
     private function EfectivoXEntregar($moneda, $mensajero)
     {
-        if($mensajero->comision > 0){
-            if($moneda->nombre === "CUP")
-            {
+        if ($mensajero->comision > 0) {
+            if ($moneda->nombre === "CUP") {
                 $total = Remesa::where('moneda_id', $moneda->id)->where('mensajero_id', $mensajero->id)->where('estado', 0)->sum('cantidad') + $mensajero->comision * Remesa::where('mensajero_id', $mensajero->id)->where('estado', 0)->count();
-            }
-            else
-            {
+            } else {
                 $total = Remesa::where('moneda_id', $moneda->id)->where('mensajero_id', $mensajero->id)->where('estado', 0)->sum('cantidad');
             }
-        }else{
-            if($moneda->nombre === "CUP")
-            {
+        } else {
+            if ($moneda->nombre === "CUP") {
                 $total = Remesa::where('moneda_id', $moneda->id)->where('mensajero_id', $mensajero->id)->where('estado', 0)->sum('cantidad') + Remesa::where('mensajero_id', $mensajero->id)->where('estado', 0)->sum('comision');
-            }
-            else
-            {
+            } else {
                 $total = Remesa::where('moneda_id', $moneda->id)->where('mensajero_id', $mensajero->id)->where('estado', 0)->sum('cantidad');
             }
         }
